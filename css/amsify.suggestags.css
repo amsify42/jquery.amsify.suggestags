@@ -1,0 +1,17 @@
+.amsify-selection-label[placeholder]:empty:before {
+	cursor: text !important;
+    content: attr(placeholder);
+    color: #555; 
+}
+
+.amsify-selection-label[placeholder]:empty:focus:before {
+    content: "";
+}
+
+.amsify-selection-label
+.amsify-select-tag {
+	background: #777777;
+    color: white;
+    padding: 3px 7px;
+    margin: 0px 2px;
+}
