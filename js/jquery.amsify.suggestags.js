@@ -104,6 +104,13 @@
                                          .addClass($(this.selector).attr('class'));
               $(this.selectors.sTagsInput).focus(function(){
                 $(this).closest(_self.classes.inputArea).addClass(_self.classes.focus.substring(1));
+                if(settings.type == 'materialize') {
+                  $(this).css({
+                    'border-bottom': 'none',
+                    '-webkit-box-shadow': 'none',
+                    'box-shadow': 'none',
+                  });
+                }
               });
               $(this.selectors.sTagsInput).blur(function(){
                 $(this).closest(_self.classes.inputArea).removeClass(_self.classes.focus.substring(1));
@@ -129,6 +136,9 @@
               });
               $(window).resize(function(){
                 $(_self.selectors.listArea).width($(_self.selectors.sTagsArea).width()-3);
+              });
+              $(this.selectors.sTagsArea).click(function(){
+                $(_self.selectors.sTagsInput).focus();
               });
               $(this.selectors.listArea).find(this.classes.listItem).hover(function(){
                 $(_self.selectors.listArea).find(_self.classes.listItem).removeClass('active');
@@ -248,7 +258,7 @@
               if(settings.type == 'bootstrap') {
                 return '<span class="fa fa-times '+removeClass+'"></span>';
               } else if(settings.type == 'materialize') {
-                return '<i class="material-icons '+removeClass+'">clear</i>';
+                return '<i class="material-icons right '+removeClass+'">clear</i>';
               } else {
                 return '<b class="'+removeClass+'">X</b>';
               }
@@ -260,8 +270,11 @@
             },
 
             fixCSS : function() {
-              if(settings.type == 'materialize') {
-                $(this.selectors.inputArea).addClass(this.classes.inputAreaDef.substring(1)).css({'min-height': '36px', 'padding': '5px 5px'});
+              if(settings.type == 'amsify') {
+                $(this.selectors.inputArea).addClass(this.classes.inputAreaDef.substring(1)).css({'padding': '5px 5px'});
+              } else if(settings.type == 'materialize') {
+                $(this.selectors.inputArea).addClass(this.classes.inputAreaDef.substring(1)).css({'height': 'auto', 'padding': '5px 5px'});
+                $(this.selectors.sTagsInput).css({'margin': '0', 'height': 'auto'});
               }
             },
            

@@ -13,8 +13,14 @@
 }
 
 .amsify-suggestags-area
+.amsify-suggestags-input-area:hover {
+	cursor: text;
+}
+
+.amsify-suggestags-area
 .amsify-suggestags-input-area
 .amsify-suggestags-input {
+	max-width: 200px;
 	padding: 0px 4px;
 	border: 0;
 }
@@ -130,17 +136,6 @@ li.active {
 ul.amsify-list
 li.amsify-item-pad.active {
 	font-weight: normal;
-}
-
-
-.amsify-suggestags-label[placeholder]:empty:before {
-	cursor: text !important;
-    content: attr(placeholder);
-    color: #555; 
-}
-
-.amsify-suggestags-label[placeholder]:empty:focus:before {
-    content: "";
 }
 
 .amsify-suggestags-input-area
