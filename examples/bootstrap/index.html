@@ -42,6 +42,9 @@
 		<pre>
 			<code>
 				$('input[name="country"]').amsifySuggestags();
+				$('input[name="color"]').amsifySuggestags({
+					whiteList: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+				});
 			</code>
 		</pre>
 	</div>
@@ -49,6 +52,9 @@
 <!-- -->
 <script type="text/javascript">
 	$('input[name="country"]').amsifySuggestags();
+	$('input[name="color"]').amsifySuggestags({
+		whiteList: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+	});
 </script>
 </body>
 </html>

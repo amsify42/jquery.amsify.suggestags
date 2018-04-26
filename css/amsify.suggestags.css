@@ -9,6 +9,7 @@
 .amsify-suggestags-area
 .amsify-suggestags-input-area {
 	text-align: left;
+	height: auto;
 }
 
 .amsify-suggestags-area
@@ -16,6 +17,26 @@
 .amsify-suggestags-input {
 	padding: 0px 4px;
 	border: 0;
+}
+
+.amsify-suggestags-area
+.amsify-suggestags-input-area
+.amsify-suggestags-input:focus {
+	outline: 0;
+}
+
+.amsify-focus {
+	border-color: #66afe9;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102,175,233,.6);
+}
+
+.amsify-focus-light {
+	border-color: #cacaca;
+	outline: 0;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(189, 189, 189, 0.6);
+	box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(189, 189, 189, 0.6);
 }
 
 .amsify-suggestags-area
@@ -57,6 +78,17 @@ li.amsify-list-item {
 .amsify-suggestags-area
 .amsify-suggestags-list
 ul.amsify-list
+li.amsify-list-item:active {
+	background: #717171;
+    color: white;
+    -moz-box-shadow:    inset 0 0 10px #000000;
+    -webkit-box-shadow: inset 0 0 10px #000000;
+    box-shadow:         inset 0 0 10px #000000;
+}
+
+.amsify-suggestags-area
+.amsify-suggestags-list
+ul.amsify-list
 li.amsify-list-group {
 	text-align: left;
     padding: 0px 10px;
@@ -82,24 +114,6 @@ li.amsify-item-noresult {
 
 .amsify-suggestags-area
 .amsify-suggestags-list
-ul.amsify-list
-li.amsify-list-item:hover {
-	background: #bbbbbb;
-}
-
-.amsify-suggestags-area
-.amsify-suggestags-list
-ul.amsify-list
-li.amsify-list-item:active {
-	background: #717171;
-    color: white;
-    -moz-box-shadow:    inset 0 0 10px #000000;
-    -webkit-box-shadow: inset 0 0 10px #000000;
-    box-shadow:         inset 0 0 10px #000000;
-}
-
-.amsify-suggestags-area
-.amsify-suggestags-list
 .amsify-select-input {
 	display: none;
 }
@@ -108,8 +122,7 @@ li.amsify-list-item:active {
 .amsify-suggestags-list
 ul.amsify-list
 li.active {
-	background: #bbbbbb;
-	font-weight: bold;
+	background: #d9d8d8;
 }
 
 .amsify-suggestags-area
@@ -118,7 +131,6 @@ ul.amsify-list
 li.amsify-item-pad.active {
 	font-weight: normal;
 }
-
 
 
 .amsify-suggestags-label[placeholder]:empty:before {
@@ -131,10 +143,19 @@ li.amsify-item-pad.active {
     content: "";
 }
 
-.amsify-suggestags-label
+.amsify-suggestags-input-area
 .amsify-select-tag {
-	background: #777777;
-    color: white;
-    padding: 3px 7px;
-    margin: 0px 2px;
+	background: #d8d8d8;
+    color: black;
+    padding: 2px 7px;
+    margin: 0px 4px 1px 0px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    display: inline-block;
+}
+
+.amsify-suggestags-input-area
+.amsify-remove-tag {
+	cursor: pointer;
 }
