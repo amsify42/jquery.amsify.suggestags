@@ -11,9 +11,10 @@
          * @type {object}
          */
         var settings = $.extend({
-            type        : 'bootstrap',
-            tagLimit    : 5,
-            whiteList   : [],
+            type          : 'bootstrap',
+            tagLimit      : 5,
+            suggestions   : [],
+            whiteList     : false,
         }, options);
 
         /**
@@ -130,7 +131,8 @@
                   } else {
                     $(this).addClass(removeClass);
                   }
-                } else if(settings.whiteList.length) {
+                } else if(settings.suggestions.length) {
+                  $(this).removeClass(_self.classes.readyToRemove.substring(1));
                   _self.processWhiteList(keycode, $(this).val());
                 }
               });
@@ -230,7 +232,7 @@
             createList : function() {
               var _self     = this;
               var listHTML  = '';
-              $.each(settings.whiteList, function(index, item){
+              $.each(settings.suggestions, function(index, item){
                   listHTML += '<li class="'+_self.classes.listItem.substring(1)+'" data-val="'+item+'">'+item+'</li>';
               });
               return listHTML;
@@ -238,9 +240,19 @@
 
             addTag : function(value) {
               if(!value) return;
-              this.tagNames.push(value);
               var html  = '<span class="'+this.classes.tagItem.substring(1)+'">'+value+' '+this.setIcon()+'</span>';
-              $(html).insertBefore($(this.selectors.sTagsInput));
+              $item = $(html).insertBefore($(this.selectors.sTagsInput));
+              if(settings.whiteList && $.inArray(value, settings.suggestions) === -1) {
+                $item.addClass('disabled');
+                setTimeout(function(){
+                  $item.slideUp();
+                  setTimeout(function(){
+                    $item.remove();
+                  }, 500);
+                }, 500);
+                return false;
+              }
+              this.tagNames.push(value);
               this.setRemoveEvent();
               this.setInputValue();
               $(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
@@ -260,7 +272,7 @@
               } else if(settings.type == 'materialize') {
                 return '<i class="material-icons right '+removeClass+'">clear</i>';
               } else {
-                return '<b class="'+removeClass+'">X</b>';
+                return '<b class="'+removeClass+'">&#10006;</b>';
               }
             },
 

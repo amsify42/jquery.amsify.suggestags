@@ -150,6 +150,19 @@ li.amsify-item-pad.active {
     display: inline-block;
 }
 
+/*.amsify-suggestags-input-area
+.amsify-select-tag:hover {
+	background: #737373;
+    color: white;
+}*/
+
+.amsify-suggestags-input-area
+.disabled.amsify-select-tag {
+    background: #eaeaea;
+    color: #b9b9b9;
+    pointer-events: none;
+}
+
 .amsify-suggestags-input-area
 .amsify-remove-tag {
 	cursor: pointer;

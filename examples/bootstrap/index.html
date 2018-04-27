@@ -33,6 +33,11 @@
 		<div class="form-group">
 			<input type="text" class="form-control" name="color" value="Orange,Black"/>
 		</div>
+
+		<h4>WhiteList</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="planets" value="Earth,Mars"/>
+		</div>
 	</div>
 	<div class="col-md-3"></div>
 </div>
@@ -43,7 +48,11 @@
 			<code>
 				$('input[name="country"]').amsifySuggestags();
 				$('input[name="color"]').amsifySuggestags({
-					whiteList: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+					suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+				});
+				$('input[name="planets"]').amsifySuggestags({
+					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+					whiteList: true
 				});
 			</code>
 		</pre>
@@ -53,7 +62,11 @@
 <script type="text/javascript">
 	$('input[name="country"]').amsifySuggestags();
 	$('input[name="color"]').amsifySuggestags({
-		whiteList: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+	});
+	$('input[name="planets"]').amsifySuggestags({
+		suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+		whiteList: true
 	});
 </script>
 </body>

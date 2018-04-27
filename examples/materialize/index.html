@@ -30,7 +30,12 @@
       </div>
       <br/>
       <div class="row center">
+      	<h5>Already Selected</h5>
       	<input type="text" class="form-control" name="color" value="Orange,Black"/>
+      </div>
+      <div class="row center">
+      	<h5>White Listed</h5>
+      	<input type="text" class="form-control" name="planets" value="Earth,Mars"/>
       </div>
     </div>
   </div>
@@ -48,7 +53,12 @@
 				});
 				$('input[name="color"]').amsifySuggestags({
 					type : 'materialize',
-					whiteList: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+					suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+				});
+				$('input[name="planets"]').amsifySuggestags({
+					type : 'materialize',
+					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+					whiteList: true
 				});
 			</code>
 		</pre>
@@ -61,7 +71,12 @@
 	});
 	$('input[name="color"]').amsifySuggestags({
 		type : 'materialize',
-		whiteList: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+	});
+	$('input[name="planets"]').amsifySuggestags({
+		type : 'materialize',
+		suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+		whiteList: true
 	});
 </script>
 </body>
