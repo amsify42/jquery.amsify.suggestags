@@ -164,6 +164,14 @@ li.amsify-item-pad.active {
 }
 
 .amsify-suggestags-input-area
+.flash.amsify-select-tag {
+    background-color: #f57f7f;
+    -webkit-transition: background-color 200ms linear;
+    -ms-transition: background-color 200ms linear;
+    transition: background-color 200ms linear;
+}
+
+.amsify-suggestags-input-area
 .amsify-remove-tag {
 	cursor: pointer;
 }

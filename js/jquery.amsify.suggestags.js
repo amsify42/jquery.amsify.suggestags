@@ -126,7 +126,7 @@
                   var removeClass = _self.classes.readyToRemove.substring(1);
                   if($(this).hasClass(removeClass)) {
                     $item = $(this).closest(_self.classes.inputArea).find(_self.classes.tagItem+':last');
-                    _self.removeTag($item);
+                    _self.removeTag($item, false);
                     $(this).removeClass(removeClass);
                   } else {
                     $(this).addClass(removeClass);
@@ -197,7 +197,7 @@
             suggestWhiteList(value) {
               var found = false;
               $(this.selectors.listArea).find(this.classes.listItem).each(function(){
-                if(~$(this).text().toLowerCase().indexOf(value)) {
+                if(~$(this).text().toLowerCase().indexOf(value.toLowerCase())) {
                   $(this).show();
                   found = true;
                 } else {
@@ -225,7 +225,7 @@
               $(this.selectors.inputArea).find(this.classes.removeTag).click(function(e){
                   e.stopImmediatePropagation();
                   $tagItem = $(this).closest(_self.classes.tagItem);
-                  _self.removeTag($tagItem);
+                  _self.removeTag($tagItem, false);
               });
             },
 
@@ -240,29 +240,59 @@
 
             addTag : function(value) {
               if(!value) return;
-              var html  = '<span class="'+this.classes.tagItem.substring(1)+'">'+value+' '+this.setIcon()+'</span>';
+              var html  = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+value+' '+this.setIcon()+'</span>';
               $item = $(html).insertBefore($(this.selectors.sTagsInput));
               if(settings.whiteList && $.inArray(value, settings.suggestions) === -1) {
-                $item.addClass('disabled');
-                setTimeout(function(){
-                  $item.slideUp();
-                  setTimeout(function(){
-                    $item.remove();
-                  }, 500);
-                }, 500);
+                this.animateRemove($item, true);
                 return false;
               }
-              this.tagNames.push(value);
-              this.setRemoveEvent();
-              this.setInputValue();
+              if(settings.whiteList && $.inArray(value, this.tagNames) !== -1) {
+                this.animateRemove($item, true);
+                this.flashItem(value);
+              } else {
+                this.tagNames.push(value);
+                this.setRemoveEvent();
+                this.setInputValue();
+              }
               $(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
               $(this.selectors.listArea).hide();
             },
 
-            removeTag : function(item) {
+            removeTag : function(item, animate) {
               this.tagNames.splice($(item).index(), 1);
-              $(item).remove();
+              this.animateRemove(item, animate);
               this.setInputValue();
+            },
+
+            animateRemove : function(item, animate) {
+              $(item).addClass('disabled');
+              if(animate) {
+                setTimeout(function(){
+                  $(item).slideUp();
+                  setTimeout(function(){
+                    $(item).remove();
+                  }, 500);
+                }, 500);
+              } else {
+                $(item).remove();
+              }
+            },
+
+            flashItem : function(value) {
+              $item  = '';
+              $(this.selectors.sTagsArea).find(this.classes.tagItem).each(function(){
+                var tagName = $.trim($(this).attr('data-val'));
+                if(value == tagName) {
+                  $item = $(this);
+                  return false;
+                }
+              });
+              if($item) {
+                $item.addClass('flash');
+                setTimeout(function(){
+                  $item.removeClass('flash');
+                }, 1500);
+              }
             },
 
             setIcon : function() {
