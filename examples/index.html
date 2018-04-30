@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jquery Suggestags - Amsify42</title>
+
+<!-- CDN links -->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="../css/amsify.suggestags.css">
+
+<!-- Amsify Plugin -->
+<script type="text/javascript" src="../js/jquery.amsify.suggestags.js"></script>
+</head>
+<body>
+<header>
+	<div class="container">
+		<h1 class="text-center">Jquery Suggestags</h1>
+	</div>
+</header>
+<div class="container" style="min-height:360px;">
+	<div class="col-md-3"></div>
+	<div class="col-md-6 text-center">
+		<div class="form-group">
+			<input type="text" class="form-control" name="country"/>
+		</div>
+		<br><br>
+		<h4>Already Selected</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="color" value="Orange,Black"/>
+		</div>
+		<h4>White Listed</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="planets" value="Earth,Mars"/>
+		</div>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+<footer>
+	<div class="container">
+		<h1 class="text-left">Usage</h1>
+		<pre>
+			<code>
+				$('input[name="country"]').amsifySuggestags({
+					type : 'amsify'
+				});
+				$('input[name="color"]').amsifySuggestags({
+					type : 'amsify',
+					suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+				});
+				$('input[name="planets"]').amsifySuggestags({
+					type : 'amsify',
+					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+					whiteList: true
+				});
+			</code>
+		</pre>
+	</div>
+</footer>
+<!-- -->
+<script type="text/javascript">
+	$('input[name="country"]').amsifySuggestags({
+		type : 'amsify'
+	});
+	$('input[name="color"]').amsifySuggestags({
+		type : 'amsify',
+		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+	});
+	$('input[name="planets"]').amsifySuggestags({
+		type : 'amsify',
+		suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+		whiteList: true
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Jquery Suggestags - Amsify42</title>
+
+<!-- CDN links -->
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" type="text/css" href="../../css/amsify.suggestags.css">
+
+<!-- Amsify Plugin -->
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+<script type="text/javascript" src="../../js/jquery.amsify.suggestags.js"></script>
+</head>
+<body>
+<header>
+	<div class="container">
+		<h1 class="text-center">Jquery Suggestags</h1>
+	</div>
+</header>
+<div class="container" style="min-height:360px;">
+	<div class="col-md-3"></div>
+	<div class="col-md-6 text-center">
+		<div class="form-group">
+			<input type="text" class="form-control" name="country"/>
+		</div>
+
+		<h4>Already Selected</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="color" value="Orange,Black"/>
+		</div>
+
+		<h4>WhiteList</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="planets" value="Earth,Mars"/>
+		</div>
+
+		<h4>Custom Classes</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="fruits" value="Apple"/>
+		</div>
+	</div>
+	<div class="col-md-3"></div>
+</div>
+<footer>
+	<div class="container">
+		<h1 class="text-left">Usage</h1>
+		<pre>
+			<code>
+				$('input[name="country"]').amsifySuggestags();
+				$('input[name="color"]').amsifySuggestags({
+					suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+				});
+				$('input[name="planets"]').amsifySuggestags({
+					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+					whiteList: true
+				});
+				$('input[name="fruits"]').amsifySuggestags({
+					suggestions: ['Apple', 'Banana', 'Cherries', 'Dates', 'Guava'],
+					classes: ['bg-primary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info'],
+					whiteList: true
+				});
+			</code>
+		</pre>
+	</div>
+</footer>
+<!-- -->
+<script type="text/javascript">
+	$('input[name="country"]').amsifySuggestags();
+	$('input[name="color"]').amsifySuggestags({
+		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+	});
+	$('input[name="planets"]').amsifySuggestags({
+		suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
+		whiteList: true
+	});
+
+	$('input[name="fruits"]').amsifySuggestags({
+		suggestions: ['Apple', 'Banana', 'Cherries', 'Dates', 'Guava'],
+		classes: ['bg-primary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info'],
+		whiteList: true,
+		afterAdd : function(value) {
+			console.info(value);
+		},
+		afterRemove : function(value) {
+			console.info(value);
+		},
+	});
+</script>
+</body>
+</html>
