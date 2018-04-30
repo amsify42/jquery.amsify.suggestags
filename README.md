@@ -15,7 +15,7 @@ This is a simple JQuery plugin for input tags with auto complete suggestion.
 6. [Refresh Destroy](#refresh-destroy)
 
 ## Simple Tags
-For simple selection, your html select input can be
+For simple initialization
 ```html
 	<input type="text" class="form-control" name="country"/>
 ```
@@ -23,7 +23,7 @@ For simple selection, your html select input can be
 	$('input[name="country"]').amsifySuggestags();
 ```
 ## Default Value
-If input is already having value separated comma, it will load the tags by default
+If input is already having value separated by comma, it will load the tags by default
 ```html
 	<input type="text" class="form-control" name="country" value="India,UAE,Nepal"/>
 ```
@@ -43,7 +43,7 @@ List of values can be passed to get the suggestions.
 ```
 
 ## White List
-This option simple does not allow any other inputs other than suggestions.
+This option simply does not allow any other inputs other than from suggestions.
 ```html
 	<input type="text" class="form-control" name="country"/>
 ```
