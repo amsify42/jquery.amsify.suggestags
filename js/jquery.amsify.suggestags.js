@@ -5,7 +5,7 @@
  */
 (function($) {
 
-    $.fn.amsifySuggestags = function(options) {
+    $.fn.amsifySuggestags = function(options, method) {
         /**
          * Merging default settings with custom
          * @type {object}
@@ -67,12 +67,14 @@
              * @param  {selector} form
              */
             _init : function(selector) {
-                this.selector   = selector;
-                this.name       = ($(selector).attr('name'))? $(selector).attr('name')+'_amsify': 'amsify_suggestags';
-                this.createHTML();
-                this.setEvents();
-                $(this.selector).hide();
-                this.setDefault();
+                if(this.refresh(selector, method)) {
+                  this.selector   = selector;
+                  this.name       = ($(selector).attr('name'))? $(selector).attr('name')+'_amsify': 'amsify_suggestags';
+                  this.createHTML();
+                  this.setEvents();
+                  $(this.selector).hide();
+                  this.setDefault();
+                }
             },
 
             createHTML : function() {
@@ -246,7 +248,7 @@
                 this.animateRemove($item, true);
                 this.flashItem(value);
               } else {
-                this.setCustomCSS($item, itemKey);
+                this.customStylings($item, itemKey);
                 this.tagNames.push(value);
                 this.setRemoveEvent();
                 this.setInputValue();
@@ -254,6 +256,7 @@
                   settings.afterAdd(value);
                 }
               }
+              $(this.selector).trigger('suggestags.add', [value]);
               $(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
               $(this.selectors.listArea).hide();
             },
@@ -269,7 +272,7 @@
               return present;
             },
 
-            setCustomCSS : function(item, key) {
+            customStylings : function(item, key) {
               var isCutom = false;
               if(settings.classes[key]) {
                 isCutom = true;
@@ -290,6 +293,7 @@
               this.tagNames.splice($(item).index(), 1);
               this.animateRemove(item, animate);
               this.setInputValue();
+              $(this.selector).trigger('suggestags.remove', [$(item).attr('data-val')]);
               if(settings.afterAdd && typeof settings.afterAdd == "function") {
                 settings.afterAdd($(item).attr('data-val'));
               }
@@ -353,7 +357,18 @@
 
             printValues : function() {
               console.info(this.tagNames, $(this.selector).val());
-            }
+            },
+
+            refresh : function(selector, method) {
+              $findTags = $(selector).next(this.classes.sTagsArea);
+              if($findTags.length)  $findTags.remove();
+              $(selector).show();
+              if(typeof method !== undefined && method == 'destroy') {
+                return false;
+              } else {
+                return true;
+              }
+            },
            
         };
         
