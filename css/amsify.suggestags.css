@@ -140,14 +140,18 @@ li.amsify-item-pad.active {
 
 .amsify-suggestags-input-area
 .amsify-select-tag {
-	background: #d8d8d8;
-    color: black;
     padding: 2px 7px;
     margin: 0px 4px 1px 0px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
     display: inline-block;
+}
+
+.amsify-suggestags-input-area
+.amsify-select-tag.col-bg {
+	background: #d8d8d8;
+    color: black;
 }
 
 /*.amsify-suggestags-input-area

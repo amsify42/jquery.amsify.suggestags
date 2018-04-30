@@ -14,7 +14,12 @@
             type          : 'bootstrap',
             tagLimit      : 5,
             suggestions   : [],
+            classes       : [],
+            backgrounds   : [],
+            colors        : [],
             whiteList     : false,
+            afterAdd      : {},
+            afterRemove   : {},
         }, options);
 
         /**
@@ -37,6 +42,7 @@
               itemPad       : '.amsify-item-pad',
               inputType     : '.amsify-select-input',
               tagItem       : '.amsify-select-tag',
+              colBg         : '.col-bg',
               removeTag     : '.amsify-remove-tag',
               readyToRemove : '.ready-to-remove',
            };
@@ -231,7 +237,8 @@
               if(!value) return;
               var html  = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+value+' '+this.setIcon()+'</span>';
               $item = $(html).insertBefore($(this.selectors.sTagsInput));
-              if(settings.whiteList && $.inArray(value, settings.suggestions) === -1) {
+              var itemKey = $.inArray(value, settings.suggestions);
+              if(settings.whiteList && itemKey === -1) {
                 this.animateRemove($item, true);
                 return false;
               }
@@ -239,9 +246,13 @@
                 this.animateRemove($item, true);
                 this.flashItem(value);
               } else {
+                this.setCustomCSS($item, itemKey);
                 this.tagNames.push(value);
                 this.setRemoveEvent();
                 this.setInputValue();
+                if(settings.afterAdd && typeof settings.afterAdd == "function") {
+                  settings.afterAdd(value);
+                }
               }
               $(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
               $(this.selectors.listArea).hide();
@@ -258,10 +269,30 @@
               return present;
             },
 
+            setCustomCSS : function(item, key) {
+              var isCutom = false;
+              if(settings.classes[key]) {
+                isCutom = true;
+                $(item).addClass(settings.classes[key]);
+              }
+              if(settings.backgrounds[key]) {
+                isCutom = true;
+                $(item).css('background', settings.backgrounds[key]);
+              }
+              if(settings.colors[key]) {
+                isCutom = true;
+                $(item).css('color', settings.colors[key]);
+              }
+              if(!isCutom) $(item).addClass(this.classes.colBg.substring(1));
+            },
+
             removeTag : function(item, animate) {
               this.tagNames.splice($(item).index(), 1);
               this.animateRemove(item, animate);
               this.setInputValue();
+              if(settings.afterAdd && typeof settings.afterAdd == "function") {
+                settings.afterAdd($(item).attr('data-val'));
+              }
             },
 
             animateRemove : function(item, animate) {
