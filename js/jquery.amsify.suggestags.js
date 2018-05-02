@@ -29,7 +29,7 @@
         var AmsifySuggestags = function() {
             this.selector      = null;
             this.name          = null;
-            this.defaultLabel  = 'Type here to add';
+            this.defaultLabel  = 'Type here';
             this.classes       = {
               sTagsArea     : '.amsify-suggestags-area',
               inputArea     : '.amsify-suggestags-input-area',
@@ -83,6 +83,7 @@
               var labelHTML                 = '<div class="'+this.classes.inputArea.substring(1)+'"></div>';
               this.selectors.inputArea      = $(labelHTML).appendTo(this.selectors.sTagsArea);
 
+              this.defaultLabel             = ($(this.selector).attr('placeholder') !== undefined)? $(this.selector).attr('placeholder'): this.defaultLabel;
               var sTagsInput                = '<input type="text" class="'+this.classes.sTagsInput.substring(1)+'" placeholder="'+this.defaultLabel+'">';
               this.selectors.sTagsInput     = $(sTagsInput).appendTo(this.selectors.inputArea);
 
