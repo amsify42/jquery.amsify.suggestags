@@ -193,9 +193,10 @@
             },
 
             suggestWhiteList(value) {
+              var _self = this;
               var found = false;
               $(this.selectors.listArea).find(this.classes.listItem).each(function(){
-                if(~$(this).text().toLowerCase().indexOf(value.toLowerCase())) {
+                if(~$(this).attr('data-val').toLowerCase().indexOf(value.toLowerCase()) && $.inArray($(this).attr('data-val'), _self.tagNames) === -1) {
                   $(this).show();
                   found = true;
                 } else {
