@@ -85,7 +85,7 @@
 
               this.defaultLabel             = ($(this.selector).attr('placeholder') !== undefined)? $(this.selector).attr('placeholder'): this.defaultLabel;
               var sTagsInput                = '<input type="text" class="'+this.classes.sTagsInput.substring(1)+'" placeholder="'+this.defaultLabel+'">';
-              this.selectors.sTagsInput     = $(sTagsInput).appendTo(this.selectors.inputArea);
+              this.selectors.sTagsInput     = $(sTagsInput).appendTo(this.selectors.inputArea).attr('autocomplete', 'off');
 
               var listArea              = '<div class="'+this.classes.listArea.substring(1)+'"></div>';
               this.selectors.listArea   = $(listArea).appendTo(this.selectors.sTagsArea);
@@ -244,6 +244,7 @@
               var itemKey = $.inArray(value, settings.suggestions);
               if(settings.whiteList && itemKey === -1) {
                 this.animateRemove($item, true);
+                this.flashItem(value);
                 return false;
               }
               if(this.isPresent(value)) {
