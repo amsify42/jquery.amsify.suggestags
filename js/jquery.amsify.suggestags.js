@@ -192,7 +192,7 @@
               }
             },
 
-            suggestWhiteList(value) {
+            suggestWhiteList : function(value) {
               var _self = this;
               var found = false;
               $(this.selectors.listArea).find(this.classes.listItem).each(function(){
