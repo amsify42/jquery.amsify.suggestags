@@ -297,8 +297,8 @@
               this.animateRemove(item, animate);
               this.setInputValue();
               $(this.selector).trigger('suggestags.remove', [$(item).attr('data-val')]);
-              if(settings.afterAdd && typeof settings.afterAdd == "function") {
-                settings.afterAdd($(item).attr('data-val'));
+              if(settings.afterRemove && typeof settings.afterRemove == "function") {
+                settings.afterRemove($(item).attr('data-val'));
               }
             },
 
