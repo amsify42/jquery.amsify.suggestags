@@ -109,5 +109,5 @@ For refreshing the values, you can use
 ```
 For destroying the instance, you can do
 ```js
-	$('input[name="country"]').amsifySuggestags({}, 'destory');
+	$('input[name="country"]').amsifySuggestags({}, 'destroy');
 ```
