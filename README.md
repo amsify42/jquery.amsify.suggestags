@@ -12,7 +12,8 @@ This is a simple JQuery plugin for input tags with auto complete suggestion.
 3. [Suggestions](#suggestions)
 4. [White List](#white-list)
 5. [Callbacks and Events](#callbacks-and-events)
-6. [Refresh Destroy](#refresh-destroy)
+6. [Tag Limit](#tag-limit)
+7. [Refresh Destroy](#refresh-destroy)
 
 ## Simple Tags
 For simple initialization
@@ -96,6 +97,14 @@ or we can also subscribe to add/remove events
 	});
 	$('input[name="country"]').on('suggestags.remove', function(e){
 		// Do something while removing tag
+	});
+```
+
+## Tag Limit
+We can also set tags limit
+```js
+	$('input[name="country"]').amsifySuggestags({
+		tagLimit: 5
 	});
 ```
 
