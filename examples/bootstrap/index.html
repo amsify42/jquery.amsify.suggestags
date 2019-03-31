@@ -43,6 +43,11 @@
 		<div class="form-group">
 			<input type="text" class="form-control" name="fruits" value="Apple"/>
 		</div>
+
+		<h4>Tag Limit</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="anything" value="one,two,three,four,five,six"/>
+		</div>
 	</div>
 	<div class="col-md-3"></div>
 </div>
@@ -63,6 +68,9 @@
 					suggestions: ['Apple', 'Banana', 'Cherries', 'Dates', 'Guava'],
 					classes: ['bg-primary', 'bg-success', 'bg-danger', 'bg-warning', 'bg-info'],
 					whiteList: true
+				});
+				$('input[name="anything"]').amsifySuggestags({
+					tagLimit: 5
 				});
 			</code>
 		</pre>
@@ -89,6 +97,9 @@
 		afterRemove : function(value) {
 			console.info(value);
 		},
+	});
+	$('input[name="anything"]').amsifySuggestags({
+		tagLimit: 5
 	});
 </script>
 </body>
