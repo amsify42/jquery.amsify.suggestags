@@ -37,6 +37,12 @@
       	<h5>White Listed</h5>
       	<input type="text" class="form-control" name="planets" value="Earth,Mars"/>
       </div>
+      <div class="row center">
+      	<h5>Tag Limit</h5>
+		<div class="form-group">
+			<input type="text" class="form-control" name="anything" value="one,two,three,four,five,six"/>
+		</div>
+	  </div>
     </div>
   </div>
 
@@ -60,6 +66,10 @@
 					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
 					whiteList: true
 				});
+				$('input[name="anything"]').amsifySuggestags({
+					type : 'materialize',
+					tagLimit: 5
+				});
 			</code>
 		</pre>
 	</div>
@@ -77,6 +87,10 @@
 		type : 'materialize',
 		suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
 		whiteList: true
+	});
+	$('input[name="anything"]').amsifySuggestags({
+		type : 'materialize',
+		tagLimit: 5
 	});
 </script>
 </body>

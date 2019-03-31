@@ -12,7 +12,7 @@
          */
         var settings = $.extend({
             type          : 'bootstrap',
-            tagLimit      : 5,
+            tagLimit      : -1,
             suggestions   : [],
             classes       : [],
             backgrounds   : [],
@@ -241,6 +241,11 @@
               if(!value) return;
               var html  = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+value+' '+this.setIcon()+'</span>';
               $item = $(html).insertBefore($(this.selectors.sTagsInput));
+              if(settings.tagLimit != -1 && settings.tagLimit > 0 && this.tagNames.length >= settings.tagLimit) {
+              	this.animateRemove($item, true);
+                this.flashItem(value);
+                return false;
+              }
               var itemKey = $.inArray(value, settings.suggestions);
               if(settings.whiteList && itemKey === -1) {
                 this.animateRemove($item, true);

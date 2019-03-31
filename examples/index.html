@@ -34,6 +34,10 @@
 		<div class="form-group">
 			<input type="text" class="form-control" name="planets" value="Earth,Mars"/>
 		</div>
+		<h4>Tag Limit</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="anything" value="one,two,three,four,five,six"/>
+		</div>
 	</div>
 	<div class="col-md-3"></div>
 </div>
@@ -54,6 +58,10 @@
 					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
 					whiteList: true
 				});
+				$('input[name="anything"]').amsifySuggestags({
+					type : 'amsify',
+					tagLimit: 5
+				});
 			</code>
 		</pre>
 	</div>
@@ -71,6 +79,10 @@
 		type : 'amsify',
 		suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
 		whiteList: true
+	});
+	$('input[name="anything"]').amsifySuggestags({
+		type : 'amsify',
+		tagLimit: 5
 	});
 </script>
 </body>
