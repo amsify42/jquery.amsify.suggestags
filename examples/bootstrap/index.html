@@ -29,9 +29,14 @@
 			<input type="text" class="form-control" name="country"/>
 		</div>
 
-		<h4>Already Selected</h4>
+		<h4>Already Selected(Suggestions)</h4>
 		<div class="form-group">
 			<input type="text" class="form-control" name="color" value="Orange,Black"/>
+		</div>
+
+		<h4>Suggestions through Ajax</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="toAjax"/>
 		</div>
 
 		<h4>WhiteList</h4>
@@ -60,6 +65,11 @@
 				$('input[name="color"]').amsifySuggestags({
 					suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
 				});
+				$('input[name="toAjax"]').amsifySuggestags({
+					suggestionsAction : {
+						url : 'jquery-plugins/suggestags/examples/suggestions.php'
+					}
+				});
 				$('input[name="planets"]').amsifySuggestags({
 					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
 					whiteList: true
@@ -81,6 +91,23 @@
 	$('input[name="country"]').amsifySuggestags();
 	$('input[name="color"]').amsifySuggestags({
 		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+	});
+	$('input[name="toAjax"]').amsifySuggestags({
+		suggestionsAction : {
+			url : 'jquery-plugins/suggestags/examples/suggestions.php',
+			beforeSend : function() {
+				console.info('beforeSend');
+			},
+			success: function(data) {
+				console.info(data);
+			},
+			error: function() {
+				console.info('error');
+			},
+			complete: function(data) {
+				console.info('complete');
+			}
+		}
 	});
 	$('input[name="planets"]').amsifySuggestags({
 		suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],

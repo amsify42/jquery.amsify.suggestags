@@ -11,15 +11,16 @@
          * @type {object}
          */
         var settings = $.extend({
-            type          : 'bootstrap',
-            tagLimit      : -1,
-            suggestions   : [],
-            classes       : [],
-            backgrounds   : [],
-            colors        : [],
-            whiteList     : false,
-            afterAdd      : {},
-            afterRemove   : {},
+            type            : 'bootstrap',
+            tagLimit        : -1,
+            suggestions     : [],
+            suggestionsAction: {},
+            classes         : [],
+            backgrounds     : [],
+            colors          : [],
+            whiteList       : false,
+            afterAdd        : {},
+            afterRemove     : {},
         }, options);
 
         /**
@@ -58,7 +59,8 @@
               itemPad       : null,
               inputType     : null,
            };
-           this.tagNames = [];
+           this.ajaxActive = false; 
+           this.tagNames   = [];
         };
 
         AmsifySuggestags.prototype = {
@@ -93,14 +95,29 @@
 
               var list                  = '<ul class="'+this.classes.list.substring(1)+'"></ul>';
               this.selectors.list       = $(list).appendTo(this.selectors.listArea);
-              $(this.createList()).appendTo(this.selectors.list);
+              this.updateSuggestionList();
               this.fixCSS();
-            },           
+            },
+
+            updateSuggestionList : function() {
+              $(this.selectors.list).html('');
+              $(this.createList()).appendTo(this.selectors.list);
+            },         
 
             setEvents : function() {
               var _self = this;
               $(this.selectors.inputArea).attr('style', $(this.selector).attr('style'))
                                          .addClass($(this.selector).attr('class'));
+              this.setTagEvents();
+              $(window).resize(function(){
+                $(_self.selectors.listArea).width($(_self.selectors.sTagsArea).width()-3);
+              });
+              this.setSuggestionsEvents();
+              this.setRemoveEvent();
+            },
+
+            setTagEvents : function() {
+              var _self = this;
               $(this.selectors.sTagsInput).focus(function(){
                 $(this).closest(_self.classes.inputArea).addClass(_self.classes.focus.substring(1));
                 if(settings.type == 'materialize') {
@@ -129,17 +146,18 @@
                   } else {
                     $(this).addClass(removeClass);
                   }
-                } else if(settings.suggestions.length && $(this).val()) {
+                } else if((settings.suggestions.length || _self.isSuggestAction()) && $(this).val()) {
                   $(this).removeClass(_self.classes.readyToRemove.substring(1));
                   _self.processWhiteList(keycode, $(this).val());
                 }
               });
-              $(window).resize(function(){
-                $(_self.selectors.listArea).width($(_self.selectors.sTagsArea).width()-3);
-              });
               $(this.selectors.sTagsArea).click(function(){
                 $(_self.selectors.sTagsInput).focus();
               });
+            },
+
+            setSuggestionsEvents : function() {
+              var _self = this;
               $(this.selectors.listArea).find(this.classes.listItem).hover(function(){
                 $(_self.selectors.listArea).find(_self.classes.listItem).removeClass('active');
                 $(this).addClass('active');
@@ -151,7 +169,49 @@
                  _self.addTag($(this).data('val'));
                  $(_self.selectors.sTagsInput).val('').focus();
               });
-              this.setRemoveEvent();
+            },
+
+            isSuggestAction : function() {
+                return (settings.suggestionsAction && settings.suggestionsAction.url);
+            },
+
+            processAjaxSuggestion : function(value) {
+              var _self           = this;
+              var actionMethod    = this.getActionURL(settings.suggestionsAction.url);
+              var params          = {existing: settings.suggestions, term: value };
+              var ajaxConfig      = (settings.suggestionsAction.callbacks)? settings.suggestionsAction.callbacks: {};
+
+              var ajaxFormParams  = {
+                type        : 'POST',
+                url         : actionMethod,
+                data        : JSON.stringify(params),
+                dataType    :'json',
+              };
+              
+              if(settings.suggestionsAction.beforeSend !== undefined && typeof settings.suggestionsAction.beforeSend == "function") {
+                  ajaxFormParams['beforeSend'] = settings.suggestionsAction.beforeSend;
+              }
+              ajaxFormParams['success'] = function(data) {
+                if(data && data.suggestions) {
+                  settings.suggestions = $.extend(settings.suggestions, data.suggestions);
+                  _self.updateSuggestionList();
+                  _self.setSuggestionsEvents();
+                  _self.suggestWhiteList(value);
+                }
+                if(settings.suggestionsAction.success !== undefined && typeof settings.suggestionsAction.success == "function") {
+                    settings.suggestionsAction.success(data);
+                }
+              };
+              if(settings.suggestionsAction.error !== undefined && typeof settings.suggestionsAction.error == "function") {
+                  ajaxFormParams['error'] = settings.suggestionsAction.error;
+              }
+              ajaxFormParams['complete'] = function(data) {
+                if(settings.suggestionsAction.complete !== undefined && typeof settings.suggestionsAction.complete == "function") {
+                    settings.suggestionsAction.complete(data);
+                }
+                _self.ajaxActive = false;
+              };
+              $.ajax(ajaxFormParams);
             },
 
             processWhiteList : function(keycode, value) {
@@ -159,7 +219,12 @@
                 var type = (keycode == '40')? 'down': 'up';
                 this.upDownSuggestion(value, type);
               } else {
-                this.suggestWhiteList(value);
+                if(this.isSuggestAction() && !this.ajaxActive) {
+                   this.ajaxActive = true;
+                   this.processAjaxSuggestion(value);
+                } else {
+                  this.suggestWhiteList(value);
+                }
               }
             },
 
@@ -377,6 +442,21 @@
                 return true;
               }
             },
+
+            getActionURL : function(urlString) {
+              var URL = window.location.protocol+'//'+window.location.host;
+              if(this.isAbsoluteURL(urlString)) {
+                URL = urlString;
+              } else {
+                URL += '/'+urlString.replace(/^\/|\/$/g, '');
+              }
+              return URL;
+            },
+
+            isAbsoluteURL : function(urlString) {
+              var regexURL  = new RegExp('^(?:[a-z]+:)?//', 'i');
+              return (regexURL.test(urlString))? true: false;
+            }
            
         };
         

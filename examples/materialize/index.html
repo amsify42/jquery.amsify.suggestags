@@ -34,8 +34,12 @@
       	<input type="text" class="form-control" name="color" value="Orange,Black"/>
       </div>
       <div class="row center">
+      	<h5>Suggestions through Ajax</h5>
+      	<input type="text" class="form-control" name="toAjax"/>
+      </div>
+      <div class="row center">
       	<h5>White Listed</h5>
-      	<input type="text" class="form-control" name="planets" value="Earth,Mars"/>
+      	<input type="text" class="form-control" name="toAjax" value="Earth,Mars"/>
       </div>
       <div class="row center">
       	<h5>Tag Limit</h5>
@@ -61,6 +65,12 @@
 					type : 'materialize',
 					suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
 				});
+				$('input[name="toAjax"]').amsifySuggestags({
+					type : 'materialize',
+					suggestionsAction : {
+						url : 'jquery-plugins/suggestags/examples/suggestions.php'
+					}
+				});
 				$('input[name="planets"]').amsifySuggestags({
 					type : 'materialize',
 					suggestions: ['Mercury', 'Venus', 'Earth', 'Mars', 'Jupitor', 'Uranus', 'Neptune', 'Pluto'],
@@ -82,6 +92,12 @@
 	$('input[name="color"]').amsifySuggestags({
 		type : 'materialize',
 		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+	});
+	$('input[name="toAjax"]').amsifySuggestags({
+		type : 'materialize',
+		suggestionsAction : {
+			url : 'jquery-plugins/suggestags/examples/suggestions.php'
+		}
 	});
 	$('input[name="planets"]').amsifySuggestags({
 		type : 'materialize',

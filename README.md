@@ -10,10 +10,11 @@ This is a simple JQuery plugin for input tags with auto complete suggestion.
 1. [Simple](#simple-tags)
 2. [Default Value](#default-value)
 3. [Suggestions](#suggestions)
-4. [White List](#white-list)
-5. [Callbacks and Events](#callbacks-and-events)
-6. [Tag Limit](#tag-limit)
-7. [Refresh Destroy](#refresh-destroy)
+4. [Suggestions Through Ajax](#suggestions-through-ajax)
+5. [White List](#white-list)
+6. [Callbacks and Events](#callbacks-and-events)
+7. [Tag Limit](#tag-limit)
+8. [Refresh Destroy](#refresh-destroy)
 
 ## Simple Tags
 For simple initialization
@@ -42,6 +43,51 @@ List of values can be passed to get the suggestions.
 		suggestions: ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh']
 	});
 ```
+
+## Suggestions Through Ajax
+We can also get suggestions through Ajax
+```html
+	<input type="text" class="form-control" name="country"/>
+```
+```js
+	$('input[name="country"]').amsifySuggestags({
+		suggestionsAction : {
+			url: 'http://www.site.com/suggestions'
+		}
+	});
+```
+
+Ajax method type will be **POST**, dataType will be **json** and structure of request data you will receive is
+```json
+	{
+		"existing": ["one", "two", "three"],
+		"term": "something"
+	}
+```
+**existing** is an array of already loaded tags and **term** is the string you are trying to search.
+<br/><br/>
+You can also add ajax callbacks to this option
+```js
+	$('input[name="country"]').amsifySuggestags({
+		suggestionsAction : {
+			url: 'http://www.site.com/suggestions',
+			beforeSend : function() {
+				console.info('beforeSend');
+			},
+			success: function(data) {
+				console.info('success');
+			},
+			error: function() {
+				console.info('error');
+			},
+			complete: function(data) {
+				console.info('complete');
+			}
+		}
+	});
+```
+**Note**: **success** and **complete** callbacks does not directly override the original ajax callbacks, rather it gets called after original ones are executed.
+
 
 ## White List
 This option simply does not allow any other inputs other than from suggestions.
