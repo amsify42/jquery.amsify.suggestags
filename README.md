@@ -64,8 +64,8 @@ Ajax method type will be **POST**, dataType will be **json** and structure of re
 		"term": "something"
 	}
 ```
-*existing* is an array of already loaded tags and *term* is the string you are trying to search.
-<br/>
+**existing** is an array of already loaded tags and **term** is the string you are trying to search.
+<br/><br/>
 You can also add ajax callbacks to this option
 ```js
 	$('input[name="country"]').amsifySuggestags({
