@@ -65,6 +65,13 @@ Ajax method type will be **POST**, dataType will be **json** and structure of re
 	}
 ```
 **existing** is an array of already loaded tags and **term** is the string you are trying to search.
+<br/>
+The success response should at least contain **suggestions** key and its value should be of type list/array:
+```json
+	{
+		"suggestions": ["four", "five", "six"]
+	}
+```
 <br/><br/>
 You can also add ajax callbacks to this option
 ```js
