@@ -5,7 +5,7 @@ $post 			= json_decode(file_get_contents('php://input'), true);
 $suggestions 	= ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh'];
 $data 			= [];
 foreach($suggestions as $suggestion) {
-	if(strpos($suggestion, $post['term']) !== false) {
+	if(strpos(strtolower($suggestion), strtolower($post['term'])) !== false) {
 		$data[] = $suggestion;	
 	}
 }
