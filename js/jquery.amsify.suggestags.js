@@ -142,10 +142,10 @@
                   if($(this).hasClass(removeClass)) {
                     $item = $(this).closest(_self.classes.inputArea).find(_self.classes.tagItem+':last');
                     _self.removeTag($item, false);
-                    $(this).removeClass(removeClass);
                   } else {
                     $(this).addClass(removeClass);
                   }
+                  $(_self.selectors.listArea).hide();
                 } else if((settings.suggestions.length || _self.isSuggestAction()) && $(this).val()) {
                   $(this).removeClass(_self.classes.readyToRemove.substring(1));
                   _self.processWhiteList(keycode, $(this).val());
@@ -175,7 +175,7 @@
                 return (settings.suggestionsAction && settings.suggestionsAction.url);
             },
 
-            processAjaxSuggestion : function(value) {
+            processAjaxSuggestion : function(value, keycode) {
               var _self           = this;
               var actionMethod    = this.getActionURL(settings.suggestionsAction.url);
               var params          = {existing: settings.suggestions, term: value };
@@ -185,7 +185,7 @@
                 type        : 'POST',
                 url         : actionMethod,
                 data        : JSON.stringify(params),
-                dataType    :'json',
+                dataType    : 'json',
               };
               
               if(settings.suggestionsAction.beforeSend !== undefined && typeof settings.suggestionsAction.beforeSend == "function") {
@@ -194,9 +194,10 @@
               ajaxFormParams['success'] = function(data) {
                 if(data && data.suggestions) {
                   settings.suggestions = $.extend(settings.suggestions, data.suggestions);
+                  settings.suggestions = _self.unique(settings.suggestions);
                   _self.updateSuggestionList();
                   _self.setSuggestionsEvents();
-                  _self.suggestWhiteList(value);
+                  _self.suggestWhiteList(value, keycode);
                 }
                 if(settings.suggestionsAction.success !== undefined && typeof settings.suggestionsAction.success == "function") {
                     settings.suggestionsAction.success(data);
@@ -221,9 +222,9 @@
               } else {
                 if(this.isSuggestAction() && !this.ajaxActive) {
                    this.ajaxActive = true;
-                   this.processAjaxSuggestion(value);
+                   this.processAjaxSuggestion(value, keycode);
                 } else {
-                  this.suggestWhiteList(value);
+                  this.suggestWhiteList(value, keycode);
                 }
               }
             },
@@ -257,7 +258,7 @@
               }
             },
 
-            suggestWhiteList : function(value) {
+            suggestWhiteList : function(value, keycode) {
               var _self = this;
               var found = false;
               $(this.selectors.listArea).find(this.classes.listItem).each(function(){
@@ -268,10 +269,23 @@
                   $(this).hide();
                 }
               });
-              if(found)
+              if(found) {
                 $(this.selectors.listArea).show();
-              else
+                /**
+                 * If only one item left in whitelist suggestions
+                 */
+                $item = $(this.selectors.listArea).find(this.classes.listItem+':visible');
+                if($item.length == 1 && keycode != '8') {
+                  if((settings.whiteList && this.isSimilarText(value.toLowerCase(), $item.data('val').toLowerCase(), 40)) || this.isSimilarText(value.toLowerCase(), $item.data('val').toLowerCase(), 60)) {
+                    $item.addClass('active');
+                    $(this.selectors.sTagsInput).val($item.data('val'));
+                  }
+                } else {
+                  $item.removeClass('active');
+                }
+              } else {
                 $(this.selectors.listArea).hide();
+              }
             },
 
             setDefault : function() {
@@ -332,6 +346,7 @@
               $(this.selector).trigger('suggestags.add', [value]);
               $(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
               $(this.selectors.listArea).hide();
+              $(this.selectors.sTagsInput).removeClass(this.classes.readyToRemove.substring(1));
             },
 
             isPresent : function(value) {
@@ -370,6 +385,7 @@
               if(settings.afterRemove && typeof settings.afterRemove == "function") {
                 settings.afterRemove($(item).attr('data-val'));
               }
+              $(this.selectors.sTagsInput).removeClass(this.classes.readyToRemove.substring(1));
             },
 
             animateRemove : function(item, animate) {
@@ -456,8 +472,59 @@
             isAbsoluteURL : function(urlString) {
               var regexURL  = new RegExp('^(?:[a-z]+:)?//', 'i');
               return (regexURL.test(urlString))? true: false;
-            }
-           
+            },
+
+            unique: function(list) {
+              var result = [];
+              $.each(list, function(i, e) {
+                if ($.inArray(e, result) == -1) result.push(e);
+              });
+              return result;
+            },
+
+            isSimilarText: function(str1, str2, perc) {
+              var percent = this.similarity(str1, str2);
+              return (percent*100 >= perc)? true: false;
+            },
+
+            similarity: function(s1, s2) {
+              var longer = s1;
+              var shorter = s2;
+              if(s1.length < s2.length) {
+                longer = s2;
+                shorter = s1;
+              }
+              var longerLength = longer.length;
+              if(longerLength == 0) {
+                return 1.0;
+              }
+              return (longerLength - this.editDistance(longer, shorter))/parseFloat(longerLength);
+            },
+
+            editDistance: function(s1, s2) {
+              s1 = s1.toLowerCase();
+              s2 = s2.toLowerCase();
+              var costs = new Array();
+              for(var i = 0; i <= s1.length; i++) {
+                var lastValue = i;
+                for(var j = 0; j <= s2.length; j++) {
+                  if(i == 0) {
+                    costs[j] = j;
+                  } else {
+                    if(j > 0) {
+                      var newValue = costs[j - 1];
+                      if(s1.charAt(i - 1) != s2.charAt(j - 1))
+                        newValue = Math.min(Math.min(newValue, lastValue), costs[j]) + 1;
+                        costs[j - 1] = lastValue;
+                        lastValue = newValue;
+                      }
+                    }
+                  }
+                if(i > 0)
+                  costs[s2.length] = lastValue;
+              }
+             return costs[s2.length];
+           }
         };
         
         /**
