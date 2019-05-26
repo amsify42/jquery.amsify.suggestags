@@ -16,6 +16,7 @@ $('input').amsifySuggestags();
 7. [Callbacks and Events](#callbacks-and-events)
 8. [Tag Limit](#tag-limit)
 9. [Refresh Destroy](#refresh-destroy)
+10. [Programmatically](#programmatically)
 
 ## Simple Tags
 For simple initialization
@@ -173,4 +174,28 @@ $('input[name="country"]').amsifySuggestags(params, 'refresh');
 For destroying the instance, you can do
 ```js
 $('input[name="country"]').amsifySuggestags({}, 'destroy');
+```
+
+## Programmatically
+This is also one of the approach you can use this plugin.
+
+### Initilization
+You can initialize by creating an instance of `AmsifySuggestags` and passing selector to it.
+```js
+amsifySuggestags = new AmsifySuggestags($('input[name="country"]'));
+amsifySuggestags._init();
+```
+### Settings
+You need to set it before initialization and you can use all the setting options shown in previous approach.
+```js
+amsifySuggestags._settings({
+	suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+})
+amsifySuggestags._init();
+````
+### Refresh Destroy
+You can call these methods to refresh/destroy
+```js
+	amsifySuggestags.refresh();
+	amsifySuggestags.destroy();
 ```
