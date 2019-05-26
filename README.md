@@ -178,7 +178,6 @@ $('input[name="country"]').amsifySuggestags({}, 'destroy');
 
 ## Programmatically
 This is also one of the approach you can use this plugin.
-
 ### Initilization
 You can initialize by creating an instance of `AmsifySuggestags` and passing selector to it.
 ```js
@@ -196,6 +195,6 @@ amsifySuggestags._init();
 ### Refresh Destroy
 You can call these methods to refresh/destroy
 ```js
-	amsifySuggestags.refresh();
-	amsifySuggestags.destroy();
+amsifySuggestags.refresh();
+amsifySuggestags.destroy();
 ```
