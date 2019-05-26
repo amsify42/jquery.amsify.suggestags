@@ -198,3 +198,4 @@ You can call these methods to refresh/destroy
 amsifySuggestags.refresh();
 amsifySuggestags.destroy();
 ```
+**Note**: This approach only works for single selector element not for multiple elements having same selector.
