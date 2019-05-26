@@ -192,10 +192,18 @@ amsifySuggestags._settings({
 })
 amsifySuggestags._init();
 ````
+### Add/Remove Tag
+You can call these methods to add/remove tag with instance of `AmsifySuggestags`
+```js
+amsifySuggestags.addTag('Purple');
+amsifySuggestags.removeTag('Red');
+
+```
 ### Refresh Destroy
 You can call these methods to refresh/destroy
 ```js
 amsifySuggestags.refresh();
 amsifySuggestags.destroy();
+
 ```
 **Note**: This approach only works for single selector element not for multiple elements having same selector.
