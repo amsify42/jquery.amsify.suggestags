@@ -1,0 +1,26 @@
+{
+  "name": "suggestags",
+  "version": "1.0.1",
+  "dependencies": {
+    "jquery": "^2.1.1"
+  },
+  "description": "This is a JQuery plugin for input tags with auto complete suggestion.",
+  "main": "index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/amsify42/jquery.amsify.suggestags.git"
+  },
+  "keywords": ["jquery","amsify42","suggestags"],
+  "author": "amsify42",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/amsify42/jquery.amsify.suggestags/issues"
+  },
+  "homepage": "https://github.com/amsify42/jquery.amsify.suggestags#readme"
+}
