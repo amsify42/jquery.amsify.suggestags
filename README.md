@@ -207,3 +207,11 @@ amsifySuggestags.destroy();
 
 ```
 **Note**: This approach only works for single selector element not for multiple elements having same selector.
+<br/>
+For making it work for selector having multiple elements, you can do something like this:
+```js
+$('.tags-input').each(function(){
+	amsifySuggestags = new AmsifySuggestags($(this));
+	amsifySuggestags._init();
+});
+```
