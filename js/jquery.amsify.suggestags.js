@@ -22,6 +22,7 @@
             whiteList       : false,
             afterAdd        : {},
             afterRemove     : {},
+            selectOnHover   : true
         };
         this.method        = undefined;
         this.name          = null;
@@ -160,13 +161,15 @@
 
         setSuggestionsEvents : function() {
           var _self = this;
-          $(this.selectors.listArea).find(this.classes.listItem).hover(function(){
-            $(_self.selectors.listArea).find(_self.classes.listItem).removeClass('active');
-            $(this).addClass('active');
-            $(_self.selectors.sTagsInput).val($(this).data('val'));
-          }, function() {
-             $(this).removeClass('active');
-          });
+          if(this.settings.selectOnHover) {
+            $(this.selectors.listArea).find(this.classes.listItem).hover(function(){
+              $(_self.selectors.listArea).find(_self.classes.listItem).removeClass('active');
+              $(this).addClass('active');
+              $(_self.selectors.sTagsInput).val($(this).data('val'));
+            }, function() {
+               $(this).removeClass('active');
+            });
+          }
           $(this.selectors.listArea).find(this.classes.listItem).click(function(){
              _self.addTag($(this).data('val'));
              $(_self.selectors.sTagsInput).val('').focus();
