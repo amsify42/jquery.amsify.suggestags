@@ -1,6 +1,6 @@
 {
   "name": "suggestags",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "dependencies": {
     "jquery": ">=3.4.0"
   },
@@ -16,7 +16,11 @@
     "type": "git",
     "url": "git+https://github.com/amsify42/jquery.amsify.suggestags.git"
   },
-  "keywords": ["jquery","amsify42","suggestags"],
+  "keywords": [
+    "jquery",
+    "amsify42",
+    "suggestags"
+  ],
   "author": "amsify42",
   "license": "MIT",
   "bugs": {
