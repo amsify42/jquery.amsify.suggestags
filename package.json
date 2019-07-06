@@ -2,7 +2,7 @@
   "name": "suggestags",
   "version": "1.0.1",
   "dependencies": {
-    "jquery": "^2.1.1"
+    "jquery": ">=3.4.0"
   },
   "description": "This is a JQuery plugin for input tags with auto complete suggestion.",
   "main": "index.js",

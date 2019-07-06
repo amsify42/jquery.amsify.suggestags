@@ -3,13 +3,20 @@
  * https://github.com/amsify42/jquery.amsify.suggestags
  * http://www.amsify42.com
  */
+
+/**
+ * AmsifySuggestags made global
+ * @type AmsifySuggestags
+ */
+var AmsifySuggestags;
+
 (function($) {
     
     /**
      * Initialization begins from here
      * @type {Object}
      */
-    var AmsifySuggestags = function(selector) {
+    AmsifySuggestags = function(selector) {
         this.selector      = selector;
         this.settings      = {
             type            : 'bootstrap',
@@ -112,9 +119,11 @@
           $(this.selectors.inputArea).attr('style', $(this.selector).attr('style'))
                                      .addClass($(this.selector).attr('class'));
           this.setTagEvents();
-          $(window).resize(function(){
-            $(_self.selectors.listArea).width($(_self.selectors.sTagsArea).width()-3);
-          });
+          if(window !== undefined) {
+            $(window).resize(function(){
+              $(_self.selectors.listArea).width($(_self.selectors.sTagsArea).width()-3);
+            });
+          }
           this.setSuggestionsEvents();
           this.setRemoveEvent();
         },
@@ -485,7 +494,10 @@
         },
 
         getActionURL : function(urlString) {
-          var URL = window.location.protocol+'//'+window.location.host;
+          var URL = '';
+          if(window !== undefined) {
+              URL = window.location.protocol+'//'+window.location.host;
+          }
           if(this.isAbsoluteURL(urlString)) {
             URL = urlString;
           } else {
@@ -551,12 +563,6 @@
          return costs[s2.length];
        }
     };
-
-    /**
-     * AmsifySuggestags made global
-     * @type AmsifySuggestags
-     */
-    window.AmsifySuggestags = AmsifySuggestags;
 
     $.fn.amsifySuggestags = function(options, method) {
         /**

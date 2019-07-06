@@ -1,2 +1,3 @@
 global.$ = global.jQuery = require('jquery');
-exports.suggestags = require('./js/jquery.amsify.suggestags');
+require('./js/jquery.amsify.suggestags');
+exports.AmsifySuggestags = AmsifySuggestags;
