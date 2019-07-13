@@ -10,8 +10,13 @@
  */
 var AmsifySuggestags;
 
-(function($) {
-    
+(function (factory) {
+  if(typeof module === "object" && typeof module.exports === "object") {
+    factory(require("jquery"), window, document);
+  } else {
+    factory(jQuery, window, document);
+  }
+}(function($, window, document, undefined) {    
     /**
      * Initialization begins from here
      * @type {Object}
@@ -576,5 +581,4 @@ var AmsifySuggestags;
           amsifySuggestags._init();
         });
     };
-
-}(jQuery));
+}));
