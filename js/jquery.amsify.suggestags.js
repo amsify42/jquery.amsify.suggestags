@@ -212,7 +212,7 @@ var AmsifySuggestags;
           }
           ajaxFormParams['success'] = function(data) {
             if(data && data.suggestions) {
-              _self.settings.suggestions = $.extend(_self.settings.suggestions, data.suggestions);
+              _self.settings.suggestions = $.merge(_self.settings.suggestions, data.suggestions);
               _self.settings.suggestions = _self.unique(_self.settings.suggestions);
               _self.updateSuggestionList();
               _self.setSuggestionsEvents();
