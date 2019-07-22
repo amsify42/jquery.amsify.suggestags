@@ -371,7 +371,7 @@ var AmsifySuggestags;
         isPresent : function(value) {
           var present = false;
           $.each(this.tagNames, function(index, tag){
-            if(value.toLowerCase() == tag.toLowerCase()) {
+            if(value.toLowerCase() == tag.toString().toLowerCase()) {
               present = true;
               return false;
             }
