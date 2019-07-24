@@ -262,7 +262,7 @@ var AmsifySuggestags;
                   if($item.length) {
                     isActive = true;
                     $item.addClass('active');
-                    $(_self.selectors.sTagsInput).val($item.data('val'));
+                    $(_self.selectors.sTagsInput).val($item.text());
                   }
                 return false;
                }
@@ -272,7 +272,7 @@ var AmsifySuggestags;
             $item = $(this.selectors.listArea).find(this.classes.listItem+':visible:'+childItem);
             if($item.length) {
               $item.addClass('active');
-              $(_self.selectors.sTagsInput).val($item.data('val'));
+              $(_self.selectors.sTagsInput).val($item.text());
             }
           }
         },
@@ -295,9 +295,9 @@ var AmsifySuggestags;
              */
             $item = $(this.selectors.listArea).find(this.classes.listItem+':visible');
             if($item.length == 1 && keycode != '8') {
-              if((this.settings.whiteList && this.isSimilarText(value.toLowerCase(), $item.data('val').toLowerCase(), 40)) || this.isSimilarText(value.toLowerCase(), $item.data('val').toLowerCase(), 60)) {
+              if((this.settings.whiteList && this.isSimilarText(value.toLowerCase(), $item.text().toLowerCase(), 40)) || this.isSimilarText(value.toLowerCase(), $item.text().toLowerCase(), 60)) {
                 $item.addClass('active');
-                $(this.selectors.sTagsInput).val($item.data('val'));
+                $(this.selectors.sTagsInput).val($item.text());
               }
             } else {
               $item.removeClass('active');
@@ -371,7 +371,7 @@ var AmsifySuggestags;
         isPresent : function(value) {
           var present = false;
           $.each(this.tagNames, function(index, tag){
-            if(value.toLowerCase() == tag.toLowerCase()) {
+            if(value.toLowerCase() == tag.toString().toLowerCase()) {
               present = true;
               return false;
             }
