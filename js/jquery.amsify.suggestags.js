@@ -363,6 +363,7 @@ var AmsifySuggestags;
             }
           }
           $(this.selector).trigger('suggestags.add', [value]);
+          $(this.selector).trigger('change');
           $(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
           $(this.selectors.listArea).hide();
           $(this.selectors.sTagsInput).removeClass(this.classes.readyToRemove.substring(1));
@@ -411,6 +412,7 @@ var AmsifySuggestags;
           this.animateRemove(item, animate);
           this.setInputValue();
           $(this.selector).trigger('suggestags.remove', [$(item).attr('data-val')]);
+          $(this.selector).trigger( "change" );
           if(this.settings.afterRemove && typeof this.settings.afterRemove == "function") {
             this.settings.afterRemove($(item).attr('data-val'));
           }
