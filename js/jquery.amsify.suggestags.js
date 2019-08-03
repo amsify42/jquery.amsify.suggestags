@@ -24,17 +24,18 @@ var AmsifySuggestags;
     AmsifySuggestags = function(selector) {
         this.selector      = selector;
         this.settings      = {
-            type            : 'bootstrap',
-            tagLimit        : -1,
-            suggestions     : [],
-            suggestionsAction: {},
-            classes         : [],
-            backgrounds     : [],
-            colors          : [],
-            whiteList       : false,
-            afterAdd        : {},
-            afterRemove     : {},
-            selectOnHover   : true
+            type              : 'bootstrap',
+            tagLimit          : -1,
+            suggestions       : [],
+            suggestionsAction : {},
+            defaultTagClass   : '',
+            classes           : [],
+            backgrounds       : [],
+            colors            : [],
+            whiteList         : false,
+            afterAdd          : {},
+            afterRemove       : {},
+            selectOnHover     : true
         };
         this.method        = undefined;
         this.name          = null;
@@ -337,8 +338,11 @@ var AmsifySuggestags;
 
         addTag : function(value) {
           if(!value) return;
-          var html  = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+value+' '+this.setIcon()+'</span>';
-          $item = $(html).insertBefore($(this.selectors.sTagsInput));
+          var html          = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+value+' '+this.setIcon()+'</span>';
+          $item             = $(html).insertBefore($(this.selectors.sTagsInput));
+          if(this.settings.defaultTagClass) {
+            $item.addClass(this.settings.defaultTagClass);
+          }
           if(this.settings.tagLimit != -1 && this.settings.tagLimit > 0 && this.tagNames.length >= this.settings.tagLimit) {
             this.animateRemove($item, true);
             this.flashItem(value);

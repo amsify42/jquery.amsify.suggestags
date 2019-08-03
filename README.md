@@ -117,10 +117,18 @@ $('input[name="country"]').amsifySuggestags({
 ```
 
 ## Custom Stylings
-We can pass list of classes, colors or backgrounds through settings
 ```html
 <input type="text" class="form-control" name="country"/>
 ```
+For setting default class for tags, you can pass this setting
+```js
+$('input[name="country"]').amsifySuggestags({
+	suggestions: ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh'],
+	whiteList: true,
+	defaultTagClass: 'badge'
+});
+````
+We can pass list of classes, colors or backgrounds through settings
 ```js
 $('input[name="country"]').amsifySuggestags({
 	suggestions: ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh'],
