@@ -6,6 +6,12 @@ This is a simple JQuery plugin for input tags with auto complete suggestion.
 $('input').amsifySuggestags();
 ```
 
+## npm installation
+```cmd
+npm i suggestags
+```
+
+
 # Table of Contents
 1. [Simple](#simple-tags)
 2. [Default Value](#default-value)
@@ -148,10 +154,13 @@ $('input[name="country"]').amsifySuggestags({
 or we can also subscribe to add/remove events
 ```js
 $('input[name="country"]').on('suggestags.add', function(e){
-	// Do something while adding tag
+	// Do something after adding tag
+});
+$('input[name="country"]').on('suggestags.change', function(e){
+	// Do something while add/remove tag
 });
 $('input[name="country"]').on('suggestags.remove', function(e){
-	// Do something while removing tag
+	// Do something before removing tag
 });
 ```
 
