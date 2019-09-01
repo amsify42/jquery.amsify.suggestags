@@ -36,7 +36,8 @@ var AmsifySuggestags;
             afterAdd          : {},
             afterRemove       : {},
             selectOnHover     : true,
-            triggerChange     : false
+            triggerChange     : false,
+            noSuggestionMsg   : ''
         };
         this.method        = undefined;
         this.name          = null;
@@ -56,6 +57,7 @@ var AmsifySuggestags;
           colBg         : '.col-bg',
           removeTag     : '.amsify-remove-tag',
           readyToRemove : '.ready-to-remove',
+          noSuggestion  : '.amsify-no-suggestion',
        };
        this.selectors     = {
           sTagsArea     : null,
@@ -282,6 +284,7 @@ var AmsifySuggestags;
         suggestWhiteList : function(value, keycode) {
           var _self = this;
           var found = false;
+          $(this.selectors.listArea).find(_self.classes.noSuggestion).hide();
           $(this.selectors.listArea).find(this.classes.listItem).each(function(){
             if(~$(this).attr('data-val').toLowerCase().indexOf(value.toLowerCase()) && $.inArray($(this).attr('data-val'), _self.tagNames) === -1) {
               $(this).show();
@@ -305,7 +308,12 @@ var AmsifySuggestags;
               $item.removeClass('active');
             }
           } else {
-            $(this.selectors.listArea).hide();
+            if(value && _self.settings.noSuggestionMsg) {
+              $(this.selectors.listArea).find(_self.classes.listItem).hide();
+              $(this.selectors.listArea).find(_self.classes.noSuggestion).show();
+            } else {
+              $(this.selectors.listArea).hide();
+            }
           }
         },
 
@@ -334,6 +342,9 @@ var AmsifySuggestags;
           $.each(this.settings.suggestions, function(index, item){
               listHTML += '<li class="'+_self.classes.listItem.substring(1)+'" data-val="'+item+'">'+item+'</li>';
           });
+          if(_self.settings.noSuggestionMsg) {
+            listHTML += '<li class="'+_self.classes.noSuggestion.substring(1)+'">'+_self.settings.noSuggestionMsg+'</li>';
+          }
           return listHTML;
         },
 
