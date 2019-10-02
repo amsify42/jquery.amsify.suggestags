@@ -1,11 +1,13 @@
 <?php
 
-$post 			= json_decode(file_get_contents('php://input'), true);
+//$post 		= json_decode(file_get_contents('php://input'), true);
 
 $suggestions 	= ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh'];
 $data 			= [];
-foreach($suggestions as $suggestion) {
-	if(strpos(strtolower($suggestion), strtolower($post['term'])) !== false) {
+foreach($suggestions as $suggestion)
+{
+	if(strpos(strtolower($suggestion), strtolower($_GET['term'])) !== false)
+	{
 		$data[] = $suggestion;	
 	}
 }
