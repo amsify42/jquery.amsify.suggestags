@@ -205,10 +205,7 @@ var AmsifySuggestags;
           var ajaxConfig      = (this.settings.suggestionsAction.callbacks)? this.settings.suggestionsAction.callbacks: {};
 
           var ajaxFormParams  = {
-            type        : 'POST',
-            url         : actionMethod,
-            data        : JSON.stringify(params),
-            dataType    : 'json',
+            url : actionMethod+'?'+$.param(params),
           };
           
           if(this.settings.suggestionsAction.beforeSend !== undefined && typeof this.settings.suggestionsAction.beforeSend == "function") {

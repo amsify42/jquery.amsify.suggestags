@@ -65,7 +65,7 @@ $('input[name="country"]').amsifySuggestags({
 });
 ```
 
-Ajax method type will be **POST**, dataType will be **json** and structure of request data you will receive is
+Ajax method type will be **GET**, structure of request data you will receive is
 ```json
 {
 	"existing": ["one", "two", "three"],
