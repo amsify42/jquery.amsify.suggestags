@@ -172,6 +172,12 @@ var AmsifySuggestags;
               _self.processWhiteList(keycode, $(this).val());
             }
           });
+          $(this.selectors.sTagsInput).keypress(function(e){
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == 13) {
+              return false;
+            }
+          });
           $(this.selectors.sTagsArea).click(function(){
             $(_self.selectors.sTagsInput).focus();
           });
