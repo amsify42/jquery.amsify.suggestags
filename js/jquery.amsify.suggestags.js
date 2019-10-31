@@ -37,7 +37,8 @@ var AmsifySuggestags;
             afterRemove       : {},
             selectOnHover     : true,
             triggerChange     : false,
-            noSuggestionMsg   : ''
+            noSuggestionMsg   : '',
+            showAllSuggestions: false
         };
         this.method        = undefined;
         this.name          = null;
@@ -140,6 +141,13 @@ var AmsifySuggestags;
         setTagEvents : function() {
           var _self = this;
           $(this.selectors.sTagsInput).focus(function(){
+            /**
+             * Show all suggestions if setting set to true
+             */
+            if(_self.settings.showAllSuggestions)
+            {
+              _self.suggestWhiteList('', 0, true);
+            }
             $(this).closest(_self.classes.inputArea).addClass(_self.classes.focus.substring(1));
             if(_self.settings.type == 'materialize') {
               $(this).css({
@@ -158,6 +166,9 @@ var AmsifySuggestags;
                var value = $.trim($(this).val().replace(/,/g , ''));
                $(this).val('');
               _self.addTag(value);
+              if(_self.settings.showAllSuggestions) {
+                _self.suggestWhiteList('', 0, true);
+              }
             } else if(keycode == '8' && !$(this).val()) {
               var removeClass = _self.classes.readyToRemove.substring(1);
               if($(this).hasClass(removeClass)) {
@@ -167,9 +178,18 @@ var AmsifySuggestags;
                 $(this).addClass(removeClass);
               }
               $(_self.selectors.listArea).hide();
+              if(_self.settings.showAllSuggestions) {
+                _self.suggestWhiteList('', 0, true);
+              }
             } else if((_self.settings.suggestions.length || _self.isSuggestAction()) && $(this).val()) {
               $(this).removeClass(_self.classes.readyToRemove.substring(1));
               _self.processWhiteList(keycode, $(this).val());
+            }
+          });
+          $(this.selectors.sTagsInput).keypress(function(e){
+            var keycode = (e.keyCode ? e.keyCode : e.which);
+            if(keycode == 13) {
+              return false;
             }
           });
           $(this.selectors.sTagsArea).click(function(){
@@ -278,12 +298,13 @@ var AmsifySuggestags;
           }
         },
 
-        suggestWhiteList : function(value, keycode) {
+        suggestWhiteList : function(value, keycode, showAll) {
           var _self = this;
           var found = false;
+          var all   = (showAll)? true: false;
           $(this.selectors.listArea).find(_self.classes.noSuggestion).hide();
           $(this.selectors.listArea).find(this.classes.listItem).each(function(){
-            if(~$(this).attr('data-val').toLowerCase().indexOf(value.toLowerCase()) && $.inArray($(this).attr('data-val'), _self.tagNames) === -1) {
+            if((all || ~$(this).attr('data-val').toLowerCase().indexOf(value.toLowerCase())) && $.inArray($(this).attr('data-val'), _self.tagNames) === -1) {
               $(this).show();
               found = true;
             } else {
