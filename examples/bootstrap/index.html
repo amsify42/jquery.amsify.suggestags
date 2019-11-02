@@ -31,7 +31,12 @@
 
 		<h4>Already Selected(Suggestions)</h4>
 		<div class="form-group">
-			<input type="text" class="form-control" name="color" value="Orange,Black"/>
+			<input type="text" class="form-control" name="color" value="Orange,Green"/>
+		</div>
+
+		<h4>Suggestions as objects</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="color2"/>
 		</div>
 
 		<h4>Suggestions through Ajax</h4>
@@ -65,6 +70,17 @@
 				$('input[name="color"]').amsifySuggestags({
 					suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
 				});
+				$('input[name="color2"]').amsifySuggestags({
+					suggestions: [
+									{'tag': 'Black', 'value': 1},
+									{'tag': 'White', 'value': 2},
+									{'tag': 'Red', 'value': 3},
+									{'tag': 'Blue', 'value': 4},
+									{'tag': 'Green', 'value': 5},
+									{'tag': 'Orange', 'value': 6},
+								],
+					whiteList: true			
+				});
 				$('input[name="toAjax"]').amsifySuggestags({
 					suggestionsAction : {
 						url : 'jquery-plugins/suggestags/examples/suggestions.php'
@@ -90,7 +106,19 @@
 <script type="text/javascript">
 	$('input[name="country"]').amsifySuggestags();
 	$('input[name="color"]').amsifySuggestags({
-		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange']
+		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange'],
+		showAllSuggestions: true
+	});
+	$('input[name="color2"]').amsifySuggestags({
+		suggestions: [
+						{'tag': 'Black', 'value': 1},
+						{'tag': 'White', 'value': 2},
+						{'tag': 'Red', 'value': 3},
+						{'tag': 'Blue', 'value': 4},
+						{'tag': 'Green', 'value': 5},
+						{'tag': 'Orange', 'value': 6},
+					],
+		whiteList: true			
 	});
 	$('input[name="toAjax"]').amsifySuggestags({
 		suggestionsAction : {
