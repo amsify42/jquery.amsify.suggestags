@@ -22,7 +22,8 @@ npm i suggestags
 7. [Callbacks and Events](#callbacks-and-events)
 8. [Tag Limit](#tag-limit)
 9. [Refresh Destroy](#refresh-destroy)
-10. [Programmatically](#programmatically)
+10. [More Settings](#more-settings)
+11. [Programmatically](#programmatically)
 
 ## Simple Tags
 For simple initialization
@@ -214,7 +215,7 @@ For destroying the instance, you can do
 $('input[name="country"]').amsifySuggestags({}, 'destroy');
 ```
 
-## More settings
+## More Settings
 ### selectOnHover
 ```js
 $('input[name="country"]').amsifySuggestags({
