@@ -144,8 +144,7 @@ var AmsifySuggestags;
             /**
              * Show all suggestions if setting set to true
              */
-            if(_self.settings.showAllSuggestions)
-            {
+            if(_self.settings.showAllSuggestions) {
               _self.suggestWhiteList('', 0, true);
             }
             $(this).closest(_self.classes.inputArea).addClass(_self.classes.focus.substring(1));
@@ -159,13 +158,16 @@ var AmsifySuggestags;
           });
           $(this.selectors.sTagsInput).blur(function(){
             $(this).closest(_self.classes.inputArea).removeClass(_self.classes.focus.substring(1));
+            if(!$(this).val()) {
+              $(_self.selectors.listArea).hide();
+            }
           });
           $(this.selectors.sTagsInput).keyup(function(e){
             var keycode = (e.keyCode ? e.keyCode : e.which);
             if(keycode == '13' || keycode == '188') {
                var value = $.trim($(this).val().replace(/,/g , ''));
                $(this).val('');
-              _self.addTag(value);
+              _self.addTag(_self.getValue(value));
               if(_self.settings.showAllSuggestions) {
                 _self.suggestWhiteList('', 0, true);
               }
@@ -181,7 +183,7 @@ var AmsifySuggestags;
               if(_self.settings.showAllSuggestions) {
                 _self.suggestWhiteList('', 0, true);
               }
-            } else if((_self.settings.suggestions.length || _self.isSuggestAction()) && $(this).val()) {
+            } else if((_self.settings.suggestions.length || _self.isSuggestAction()) && ($(this).val() || _self.settings.showAllSuggestions)) {
               $(this).removeClass(_self.classes.readyToRemove.substring(1));
               _self.processWhiteList(keycode, $(this).val());
             }
@@ -203,7 +205,7 @@ var AmsifySuggestags;
             $(this.selectors.listArea).find(this.classes.listItem).hover(function(){
               $(_self.selectors.listArea).find(_self.classes.listItem).removeClass('active');
               $(this).addClass('active');
-              $(_self.selectors.sTagsInput).val($(this).data('val'));
+              $(_self.selectors.sTagsInput).val($(this).text());
             }, function() {
                $(this).removeClass('active');
             });
@@ -216,6 +218,43 @@ var AmsifySuggestags;
 
         isSuggestAction : function() {
             return (this.settings.suggestionsAction && this.settings.suggestionsAction.url);
+        },
+
+        getTag : function(value) {
+          if(this.settings.suggestions.length)
+          {
+            var tag = value;
+            $.each(this.settings.suggestions, function(key, item){
+              if(typeof item === 'object' && item.value == value) {
+                tag = item.tag
+                return false;
+              }
+              else if(item == value) {
+               return false; 
+              }
+            });
+            return tag;
+          }
+          return value;
+        },
+
+        getValue : function(tag) {
+          if(this.settings.suggestions.length)
+          {
+            var value = tag;
+            var lower = tag.toString().toLowerCase();
+            $.each(this.settings.suggestions, function(key, item){
+              if(typeof item === 'object' && item.tag.toString().toLowerCase() == lower) {
+                value = item.value
+                return false;
+              }
+              else if(item.toString().toLowerCase() == lower) {
+               return false; 
+              }
+            });
+            return value;
+          }
+          return tag;
         },
 
         processAjaxSuggestion : function(value, keycode) {
@@ -302,9 +341,15 @@ var AmsifySuggestags;
           var _self = this;
           var found = false;
           var all   = (showAll)? true: false;
+          var lower = value.toString().toLowerCase();
           $(this.selectors.listArea).find(_self.classes.noSuggestion).hide();
           $(this.selectors.listArea).find(this.classes.listItem).each(function(){
-            if((all || ~$(this).attr('data-val').toLowerCase().indexOf(value.toLowerCase())) && $.inArray($(this).attr('data-val'), _self.tagNames) === -1) {
+            var dataVal = $(this).data('val');
+            if($.isNumeric(dataVal))
+            {
+              dataVal = parseInt(dataVal);
+            }
+            if((all || ~$(this).text().toString().toLowerCase().indexOf(lower)) && $.inArray(dataVal, _self.tagNames) === -1) {
               $(this).show();
               found = true;
             } else {
@@ -358,7 +403,19 @@ var AmsifySuggestags;
           var _self     = this;
           var listHTML  = '';
           $.each(this.settings.suggestions, function(index, item){
-              listHTML += '<li class="'+_self.classes.listItem.substring(1)+'" data-val="'+item+'">'+item+'</li>';
+            var value = '';
+            var tag   = '';
+            if(typeof item === 'object')
+            {
+              value = item.value
+              tag   = item.tag
+            }
+            else
+            {
+              value = item;
+              tag   = item;
+            }
+            listHTML += '<li class="'+_self.classes.listItem.substring(1)+'" data-val="'+value+'">'+tag+'</li>';
           });
           if(_self.settings.noSuggestionMsg) {
             listHTML += '<li class="'+_self.classes.noSuggestion.substring(1)+'">'+_self.settings.noSuggestionMsg+'</li>';
@@ -368,8 +425,8 @@ var AmsifySuggestags;
 
         addTag : function(value) {
           if(!value) return;
-          var html          = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+value+' '+this.setIcon()+'</span>';
-          $item             = $(html).insertBefore($(this.selectors.sTagsInput));
+          var html = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+this.getTag(value)+' '+this.setIcon()+'</span>';
+          $item    = $(html).insertBefore($(this.selectors.sTagsInput));
           if(this.settings.defaultTagClass) {
             $item.addClass(this.settings.defaultTagClass);
           }
@@ -378,7 +435,7 @@ var AmsifySuggestags;
             this.flashItem(value);
             return false;
           }
-          var itemKey = $.inArray(value, this.settings.suggestions);
+          var itemKey = this.getItemKey(value);
           if(this.settings.whiteList && itemKey === -1) {
             this.animateRemove($item, true);
             this.flashItem(value);
@@ -404,6 +461,25 @@ var AmsifySuggestags;
           $(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
           $(this.selectors.listArea).hide();
           $(this.selectors.sTagsInput).removeClass(this.classes.readyToRemove.substring(1));
+        },
+
+        getItemKey : function(value) {
+          var itemKey = -1
+          if(this.settings.suggestions.length) {
+            var lower = value.toString().toLowerCase();
+            $.each(this.settings.suggestions, function(key, item){
+              if(typeof item === 'object') {
+                if(item.value.toString().toLowerCase() == lower) {
+                  itemKey = key;
+                  return false;
+                }  
+              } else if(item.toString().toLowerCase() == lower) {
+                itemKey = key;
+                return false;
+              }
+            });
+          }
+          return itemKey;
         },
 
         isPresent : function(value) {
@@ -474,10 +550,11 @@ var AmsifySuggestags;
         },
 
         flashItem : function(value) {
-          $item  = '';
+          $item = '';
+          value = value.toString().toLowerCase();
           $(this.selectors.sTagsArea).find(this.classes.tagItem).each(function(){
             var tagName = $.trim($(this).attr('data-val'));
-            if(value.toLowerCase() == tagName.toLowerCase()) {
+            if(value == tagName.toString().toLowerCase()) {
               $item = $(this);
               return false;
             }
