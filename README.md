@@ -22,7 +22,8 @@ npm i suggestags
 7. [Callbacks and Events](#callbacks-and-events)
 8. [Tag Limit](#tag-limit)
 9. [Refresh Destroy](#refresh-destroy)
-10. [Programmatically](#programmatically)
+10. [More Settings](#more-settings)
+11. [Programmatically](#programmatically)
 
 ## Simple Tags
 For simple initialization
@@ -51,6 +52,27 @@ $('input[name="country"]').amsifySuggestags({
 	suggestions: ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh']
 });
 ```
+List if objects can also be set to have tag/value pair.
+```html
+<input type="text" class="form-control" name="color"/>
+```
+```js
+$('input[name="color"]').amsifySuggestags({
+	suggestions: [
+					{'tag': 'Black', 'value': 1},
+					{'tag': 'White', 'value': 2},
+					{'tag': 'Red', 'value': 3},
+					{'tag': 'Blue', 'value': 4},
+					{'tag': 'Green', 'value': 5},
+					{'tag': 'Orange', 'value': 6}
+				]
+});
+```
+Input will store `value` separated by comma like this
+```html
+<input type="text" class="form-control" name="1,2,3,4,5,6"/>
+```
+**Note:** While setting the default value for the input, set actual value separated by comma not tag names.
 
 ## Suggestions Through Ajax
 We can also get suggestions through Ajax
@@ -191,6 +213,29 @@ $('input[name="country"]').amsifySuggestags(params, 'refresh');
 For destroying the instance, you can do
 ```js
 $('input[name="country"]').amsifySuggestags({}, 'destroy');
+```
+
+## More Settings
+### selectOnHover
+```js
+$('input[name="country"]').amsifySuggestags({
+	selectOnHover: false
+});
+```
+It will not select the suggested tag value when the mouse hover the suggestion item. By default the value is `true`
+### noSuggestionMsg
+This will show message when there is no suggested item appears matching the input.
+```js
+$('input[name="country"]').amsifySuggestags({
+	noSuggestionMsg: 'Enter to generate new tag'
+});
+```
+### showAllSuggestions
+This will show all the suggestion item on input focus. By default this is `false`
+```js
+$('input[name="country"]').amsifySuggestags({
+	showAllSuggestions: true
+});
 ```
 
 ## Programmatically
