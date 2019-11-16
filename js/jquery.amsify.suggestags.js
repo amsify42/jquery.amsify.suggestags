@@ -347,7 +347,7 @@ var AmsifySuggestags;
             var dataVal = $(this).data('val');
             if($.isNumeric(dataVal))
             {
-              dataVal = parseInt(dataVal);
+              dataVal = (value.toString().indexOf('.') == -1)? parseInt(dataVal): parseFloat(dataVal);
             }
             if((all || ~$(this).text().toString().toLowerCase().indexOf(lower)) && $.inArray(dataVal, _self.tagNames) === -1) {
               $(this).show();
@@ -446,7 +446,12 @@ var AmsifySuggestags;
             this.flashItem(value);
           } else {
             this.customStylings($item, itemKey);
-            this.tagNames.push(value);
+            var dataVal = value;
+            if($.isNumeric(dataVal))
+            {
+              dataVal = (value.toString().indexOf('.') == -1)? parseInt(dataVal): parseFloat(dataVal);
+            }
+            this.tagNames.push(dataVal);
             this.setRemoveEvent();
             this.setInputValue();
             if(this.settings.afterAdd && typeof this.settings.afterAdd == "function") {

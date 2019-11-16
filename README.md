@@ -1,4 +1,4 @@
-Amsify Jquery Suggestags
+Jquery Suggestags
 ------------------------
 This is a simple JQuery plugin for input tags with auto complete suggestion.
 
@@ -59,12 +59,12 @@ List if objects can also be set to have tag/value pair.
 ```js
 $('input[name="color"]').amsifySuggestags({
 	suggestions: [
-					{'tag': 'Black', 'value': 1},
-					{'tag': 'White', 'value': 2},
-					{'tag': 'Red', 'value': 3},
-					{'tag': 'Blue', 'value': 4},
-					{'tag': 'Green', 'value': 5},
-					{'tag': 'Orange', 'value': 6}
+					{tag: 'Black', value: 1},
+					{tag: 'White', value: 2},
+					{tag: 'Red', value: 3},
+					{tag: 'Blue', value: 4},
+					{tag: 'Green', value: 5},
+					{tag: 'Orange', value: 6}
 				]
 });
 ```
