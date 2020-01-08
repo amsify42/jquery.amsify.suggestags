@@ -642,10 +642,41 @@ var AmsifySuggestags;
 
         unique: function(list) {
           var result = [];
+          var _self  = this;
           $.each(list, function(i, e) {
-            if ($.inArray(e, result) == -1) result.push(e);
+            if(typeof e === 'object') {
+              if(!_self.objectInArray(e, result)) {
+                result.push(e);
+              }
+            } else {
+              if($.inArray(e, result) == -1) {
+                result.push(e);
+              }
+            }
           });
           return result;
+        },
+
+        objectInArray : function(element, result) {
+          if(result.length) {
+            var present = false;
+            $.each(result, function(i, e) {
+              if(typeof e === 'object') {
+                if(e.value == element.value) {
+                  present = true;
+                  return false;
+                }
+              } else {
+                if(e == element.value) {
+                  present = true;
+                  return false;
+                }
+              }
+            });
+            return present;
+          } else {
+            return false;
+          }
         },
 
         isSimilarText: function(str1, str2, perc) {
