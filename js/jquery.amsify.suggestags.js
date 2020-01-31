@@ -38,7 +38,8 @@ var AmsifySuggestags;
             selectOnHover     : true,
             triggerChange     : false,
             noSuggestionMsg   : '',
-            showAllSuggestions: false
+            showAllSuggestions: false,
+            keepLastOnHoverTag: true
         };
         this.method        = undefined;
         this.name          = null;
@@ -207,7 +208,10 @@ var AmsifySuggestags;
               $(this).addClass('active');
               $(_self.selectors.sTagsInput).val($(this).text());
             }, function() {
-               $(this).removeClass('active');
+              $(this).removeClass('active');
+              if(!_self.settings.keepLastOnHoverTag) {
+                $(_self.selectors.sTagsInput).val('');
+              }
             });
           }
           $(this.selectors.listArea).find(this.classes.listItem).click(function(){
