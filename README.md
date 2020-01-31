@@ -237,6 +237,14 @@ $('input[name="country"]').amsifySuggestags({
 	showAllSuggestions: true
 });
 ```
+### keepLastOnHoverTag
+This will keep the last suggestion item in the input text field, even when moving away from the suggestion list. By default this is `true`.
+Useful when `showAllSuggestions` is set to `true` and you wish to hide the suggestion list when clicking away from the input text field.
+```js
+$('input[name="country"]').amsifySuggestags({
+	keepLastOnHoverTag: false
+});
+```
 
 ## Programmatically
 This is also one of the approach you can use this plugin.
