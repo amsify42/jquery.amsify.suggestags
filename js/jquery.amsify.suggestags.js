@@ -14,7 +14,7 @@ var AmsifySuggestags;
 	}
 }
 (function($, window, document, undefined) {
-	/**
+   /**
 	* Initialization begins from here
 	* @type {Object}
 	*/
@@ -719,7 +719,7 @@ var AmsifySuggestags;
 	};
 
 	$.fn.amsifySuggestags = function(options, method) {
-		/**
+       /**
 		* Initializing each instance of selector
 		* @return {object}
 		*/
