@@ -8,13 +8,13 @@ var AmsifySuggestags;
 
 (function(factory) {
 	if(typeof module === 'object' && typeof module.exports === 'object') {
-        factory(require('jquery'), window, document);
+		factory(require('jquery'), window, document);
 	} else {
-        factory(jQuery, window, document);
+		factory(jQuery, window, document);
 	}
 }
 (function($, window, document, undefined) {
-   /**
+	/**
 	* Initialization begins from here
 	* @type {Object}
 	*/
@@ -719,7 +719,7 @@ var AmsifySuggestags;
 	};
 
 	$.fn.amsifySuggestags = function(options, method) {
-	   /**
+		/**
 		* Initializing each instance of selector
 		* @return {object}
 		*/
