@@ -1,6 +1,6 @@
 Jquery Suggestags
-------------------------
-This is a simple JQuery plugin for input tags with auto complete suggestion.
+-----------------
+This is a JQuery plugin for input tags with auto complete suggestion.
 
 ```js
 $('input').amsifySuggestags();
@@ -23,7 +23,7 @@ npm i suggestags
 8. [Tag Limit](#tag-limit)
 9. [Refresh Destroy](#refresh-destroy)
 10. [More Settings](#more-settings)
-11. [Programmatically](#programmatically)
+11. [Instantiating](#instantiating)
 
 ## Simple Tags
 For simple initialization
@@ -246,7 +246,7 @@ $('input[name="country"]').amsifySuggestags({
 });
 ```
 
-## Programmatically
+## Instantiating
 This is also one of the approach you can use this plugin.
 ### Initilization
 You can initialize by creating an instance of `AmsifySuggestags` and passing selector to it.
