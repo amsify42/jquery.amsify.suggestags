@@ -14,10 +14,7 @@ var AmsifySuggestags;
 	}
 }
 (function($, window, document, undefined) {
-   /**
-	* Initialization begins from here
-	* @type {Object}
-	*/
+	
 	AmsifySuggestags = function(selector) {
 		this.selector = selector;
 		this.settings = {
@@ -719,10 +716,6 @@ var AmsifySuggestags;
 	};
 
 	$.fn.amsifySuggestags = function(options, method) {
-       /**
-		* Initializing each instance of selector
-		* @return {object}
-		*/
 		return this.each(function() {
 			var amsifySuggestags = new AmsifySuggestags(this);
 			amsifySuggestags._settings(options);
