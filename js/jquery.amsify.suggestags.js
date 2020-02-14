@@ -33,7 +33,8 @@ var AmsifySuggestags;
 			triggerChange     : false,
 			noSuggestionMsg   : '',
 			showAllSuggestions: false,
-			keepLastOnHoverTag: true
+			keepLastOnHoverTag: true,
+			printValues 	  : true
 		};
 		this.method        = undefined;
 		this.name          = null;
@@ -573,7 +574,9 @@ var AmsifySuggestags;
 
 		setInputValue: function() {
 			$(this.selector).val(this.tagNames.join(','));
-			this.printValues();
+			if(this.settings.printValues) {
+				this.printValues();
+			}
 		},
 
 		fixCSS : function() {
