@@ -1,14 +1,28 @@
 <?php
-
 $suggestions 	= ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh'];
 $data 			= [];
-foreach($suggestions as $suggestion)
+
+if($_SERVER['REQUEST_METHOD'] == 'POST')
 {
-	if(strpos(strtolower($suggestion), strtolower($_GET['term'])) !== false)
+	foreach($suggestions as $suggestion)
 	{
-		$data[] = $suggestion;	
+		if(strpos(strtolower($suggestion), strtolower($_POST['term'])) !== false)
+		{
+			$data[] = $suggestion;	
+		}
 	}
 }
+else
+{
+	foreach($suggestions as $suggestion)
+	{
+		if(strpos(strtolower($suggestion), strtolower($_GET['term'])) !== false)
+		{
+			$data[] = $suggestion;	
+		}
+	}	
+}
+
 
 header('Content-Type: application/json');
 echo json_encode(['suggestions' => $data]);

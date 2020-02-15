@@ -21,7 +21,7 @@ var AmsifySuggestags;
 			type              : 'bootstrap',
 			tagLimit          : -1,
 			suggestions       : [],
-			suggestionsAction : {},
+			suggestionsAction : {timeout: -1, minChars:2, minChange:-1, type: 'GET'},
 			defaultTagClass   : '',
 			classes           : [],
 			backgrounds       : [],
@@ -33,7 +33,8 @@ var AmsifySuggestags;
 			triggerChange     : false,
 			noSuggestionMsg   : '',
 			showAllSuggestions: false,
-			keepLastOnHoverTag: true
+			keepLastOnHoverTag: true,
+			printValues 	  : true
 		};
 		this.method        = undefined;
 		this.name          = null;
@@ -76,7 +77,7 @@ var AmsifySuggestags;
 		* @type {object}
 		*/
 		_settings : function(settings) {
-			this.settings = $.extend(this.settings, settings);      
+			this.settings = $.extend(true, {}, this.settings, settings);      
 		},
 
 		_setMethod : function(method) {
@@ -250,12 +251,21 @@ var AmsifySuggestags;
 
 		processAjaxSuggestion : function(value, keycode) {
 			var _self           = this;
-			var actionMethod    = this.getActionURL(this.settings.suggestionsAction.url);
-			var params          = {existing: this.settings.suggestions, term: value };
+			var actionURL    	= this.getActionURL(this.settings.suggestionsAction.url);
+			var params          = {existingTags: this.tagNames, existing: this.settings.suggestions, term: value};
 			var ajaxConfig      = (this.settings.suggestionsAction.callbacks)? this.settings.suggestionsAction.callbacks: {};
 			var ajaxFormParams  = {
-				url : actionMethod+'?'+$.param(params),
+				url : actionURL,
 			};
+			if(this.settings.suggestionsAction.type == 'GET') {
+				ajaxFormParams.url = ajaxFormParams.url+'?'+$.param(params);
+			} else {
+				ajaxFormParams.type = this.settings.suggestionsAction.type;
+				ajaxFormParams.data = params;
+			}
+			if(this.settings.suggestionsAction.timeout !== -1) {
+				ajaxFormParams['timeout'] = this.settings.suggestionsAction.timeout*1000;
+			}
 			if(this.settings.suggestionsAction.beforeSend !== undefined && typeof this.settings.suggestionsAction.beforeSend == "function") {
 				ajaxFormParams['beforeSend'] = this.settings.suggestionsAction.beforeSend;
 			}
@@ -289,8 +299,14 @@ var AmsifySuggestags;
 				this.upDownSuggestion(value, type);
 			} else {
 				if(this.isSuggestAction() && !this.ajaxActive) {
-					this.ajaxActive = true;
-					this.processAjaxSuggestion(value, keycode);
+					var minChars  = this.settings.suggestionsAction.minChars;
+					var minChange = this.settings.suggestionsAction.minChange;
+					var lastSearch= this.selectors.sTagsInput.attr('last-search');
+					if(value.length >= minChars && (minChange === -1 || !lastSearch || this.similarity(lastSearch, value)*100 <= minChange)) {
+						this.selectors.sTagsInput.attr('last-search', value);
+						this.ajaxActive = true;
+						this.processAjaxSuggestion(value, keycode);
+					}
 				} else {
 					this.suggestWhiteList(value, keycode);
 				}
@@ -573,7 +589,9 @@ var AmsifySuggestags;
 
 		setInputValue: function() {
 			$(this.selector).val(this.tagNames.join(','));
-			this.printValues();
+			if(this.settings.printValues) {
+				this.printValues();
+			}
 		},
 
 		fixCSS : function() {

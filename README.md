@@ -107,6 +107,10 @@ You can also add ajax callbacks to this option
 ```js
 $('input[name="country"]').amsifySuggestags({
 	suggestionsAction : {
+		timeout: -1,
+		minChars: 2,
+		minChange: -1,
+		type: 'GET',
 		url: 'http://www.site.com/suggestions',
 		beforeSend : function() {
 			console.info('beforeSend');
@@ -123,8 +127,13 @@ $('input[name="country"]').amsifySuggestags({
 	}
 });
 ```
+```
+timeout - Is for cancelling the request after given specific seconds, default is -1
+minChars - Is the minimum chars types before the first ajax hit, default is 2
+minChange - It recall the ajax based on the minimum percentage chars changed compared to the string passed in last ajax call, default is -1
+type - It is type of method we pass, default is GET
+```
 **Note**: **success** and **complete** callbacks does not directly override the original ajax callbacks, rather it gets called after original ones are executed.
-
 
 ## White List
 This option simply does not allow any other inputs other than from suggestions.
@@ -243,6 +252,13 @@ Useful when `showAllSuggestions` is set to `true` and you wish to hide the sugge
 ```js
 $('input[name="country"]').amsifySuggestags({
 	keepLastOnHoverTag: false
+});
+```
+### printValues
+By default, input value and its tag names gets printed in console. You can set it false not to print in console.
+```js
+$('input[name="country"]').amsifySuggestags({
+	printValues: false
 });
 ```
 
