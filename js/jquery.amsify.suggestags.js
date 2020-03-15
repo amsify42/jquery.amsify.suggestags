@@ -34,7 +34,8 @@ var AmsifySuggestags;
 			noSuggestionMsg   : '',
 			showAllSuggestions: false,
 			keepLastOnHoverTag: true,
-			printValues 	  : true
+			printValues 	  : true,
+			checkSimilar 	  : true
 		};
 		this.method        = undefined;
 		this.name          = null;
@@ -155,7 +156,7 @@ var AmsifySuggestags;
 			});
 			$(this.selectors.sTagsInput).keyup(function(e){
 				var keycode = (e.keyCode ? e.keyCode : e.which);
-				if(keycode == '13' || keycode == '188') {
+				if(((e.key && e.key == 'Enter') || keycode == '13') || ((e.key && e.key == ',') || keycode == '188')) {
 					var value = $.trim($(this).val().replace(/,/g , ''));
 					$(this).val('');
 					_self.addTag(_self.getValue(value));
@@ -688,6 +689,9 @@ var AmsifySuggestags;
 		},
 
 		isSimilarText: function(str1, str2, perc) {
+			if(!this.settings.checkSimilar) {
+				return false;
+			}
 			var percent = this.similarity(str1, str2);
 			return (percent*100 >= perc)? true: false;
 		},

@@ -103,7 +103,7 @@ The success response should at least contain **suggestions** key and its value s
 }
 ```
 <br/><br/>
-You can also add ajax callbacks to this option
+You can also add these settings and callbacks to this option
 ```js
 $('input[name="country"]').amsifySuggestags({
 	suggestionsAction : {
@@ -128,8 +128,8 @@ $('input[name="country"]').amsifySuggestags({
 });
 ```
 ```
-timeout - Is for cancelling the request after given specific seconds, default is -1
-minChars - Is the minimum chars types before the first ajax hit, default is 2
+timeout - It is for cancelling the request after given specific seconds, default is -1
+minChars - It is the minimum chars types before the first ajax hit, default is 2
 minChange - It recall the ajax based on the minimum percentage chars changed compared to the string passed in last ajax call, default is -1
 type - It is type of method we pass, default is GET
 ```
