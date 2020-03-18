@@ -156,7 +156,17 @@ var AmsifySuggestags;
 			});
 			$(this.selectors.sTagsInput).keyup(function(e){
 				var keycode = (e.keyCode ? e.keyCode : e.which);
-				if(((e.key && e.key == 'Enter') || keycode == '13') || ((e.key && e.key == ',') || keycode == '188')) {
+				var key 	= '';
+				if(e.key) {
+					key = e.key;
+				} else {
+					if(keycode == '13') {
+						key = 'Enter';
+					} else if(keycode == '188') {
+						key = ',';
+					}
+				}
+				if(key == 'Enter' || key == ',') {
 					var value = $.trim($(this).val().replace(/,/g , ''));
 					$(this).val('');
 					_self.addTag(_self.getValue(value));
