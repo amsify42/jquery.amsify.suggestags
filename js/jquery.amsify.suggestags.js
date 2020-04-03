@@ -359,21 +359,39 @@ var AmsifySuggestags;
 			var all   = (showAll)? true: false;
 			var lower = value.toString().toLowerCase();
 			$(this.selectors.listArea).find(_self.classes.noSuggestion).hide();
-			$(this.selectors.listArea).find(this.classes.listItem).each(function(){
+			var $list = $(this.selectors.listArea).find(this.classes.list);
+			$list.find(this.classes.listItem).each(function(){
 				var dataVal = $(this).data('val');
 				if($.isNumeric(dataVal)) {
 					dataVal = (value.toString().indexOf('.') == -1)? parseInt(dataVal): parseFloat(dataVal);
 				}
 				if((all || ~$(this).text().toString().toLowerCase().indexOf(lower)) && $.inArray(dataVal, _self.tagNames) === -1) {
-					$(this).show();
+					$(this).attr('data-show', 1);
 					found = true;
 				} else {
-					$(this).hide();
+					$(this).removeAttr('data-show');
 				}
+				$(this).hide();
 			});
 			if(found) {
-				$(this.selectors.listArea).show();
-			  /**
+				/**
+				 * Sorting the suggestions
+				 */
+				$dataShow = $list.find(this.classes.listItem+'[data-show]');
+				if(lower) {
+					$dataShow.sort(function(a, b) {
+						return value.localeCompare($(a).text().toString());
+					}).appendTo($list);
+				} else {
+					$dataShow.sort(function(a, b) {
+						return $(a).text().toString().localeCompare($(b).text().toString());
+					}).appendTo($list);
+				}
+				$dataShow.each(function(){
+					$(this).show();
+				});
+
+			   /**
 				* If only one item left in whitelist suggestions
 				*/
 				$item = $(this.selectors.listArea).find(this.classes.listItem+':visible');
@@ -385,6 +403,9 @@ var AmsifySuggestags;
 				} else {
 					$item.removeClass('active');
 				}
+
+				$(this.selectors.listArea).show();
+
 			} else {
 				if(value && _self.settings.noSuggestionMsg) {
 					$(this.selectors.listArea).find(_self.classes.listItem).hide();
