@@ -35,7 +35,8 @@ var AmsifySuggestags;
 			showAllSuggestions: false,
 			keepLastOnHoverTag: true,
 			printValues 	  : true,
-			checkSimilar 	  : true
+			checkSimilar 	  : true,
+			delimiters 		  : []
 		};
 		this.method        = undefined;
 		this.name          = null;
@@ -166,8 +167,14 @@ var AmsifySuggestags;
 						key = ',';
 					}
 				}
-				if(key == 'Enter' || key == ',') {
+				var isDelimiter = ($.inArray(key, _self.settings.delimiters) !== -1)? true: false;
+				if(key == 'Enter' || key == ',' || isDelimiter) {
 					var value = $.trim($(this).val().replace(/,/g , ''));
+					if(isDelimiter) {
+						$.each(_self.settings.delimiters, function(dkey, delimiter) {
+							value = $.trim(value.replace(delimiter, ''));
+						});
+					}
 					$(this).val('');
 					_self.addTag(_self.getValue(value));
 					if(_self.settings.showAllSuggestions) {
