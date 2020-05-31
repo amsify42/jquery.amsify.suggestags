@@ -70,6 +70,7 @@ var AmsifySuggestags;
 			itemPad       : null,
 			inputType     : null,
 		};
+		this.isRequired = false;
 		this.ajaxActive = false; 
 		this.tagNames   = [];
 	};
@@ -104,6 +105,11 @@ var AmsifySuggestags;
 			this.defaultLabel         = ($(this.selector).attr('placeholder') !== undefined)? $(this.selector).attr('placeholder'): this.defaultLabel;
 			var sTagsInput            = '<input type="text" class="'+this.classes.sTagsInput.substring(1)+'" placeholder="'+this.defaultLabel+'">';
 			this.selectors.sTagsInput = $(sTagsInput).appendTo(this.selectors.inputArea).attr('autocomplete', 'off');
+			if($(this.selector).attr('required')) {
+				$(this.selector).removeAttr('required');
+				this.isRequired = true;
+				this.updateIsRequired();
+			}
 			var listArea              = '<div class="'+this.classes.listArea.substring(1)+'"></div>';
 			this.selectors.listArea   = $(listArea).appendTo(this.selectors.sTagsArea);
 			$(this.selectors.listArea).width($(this.selectors.sTagsArea).width()-3);
@@ -111,6 +117,16 @@ var AmsifySuggestags;
 			this.selectors.list       = $(list).appendTo(this.selectors.listArea);
 			this.updateSuggestionList();
 			this.fixCSS();
+		},
+
+		updateIsRequired : function() {
+			if(this.isRequired) {
+				if(this.tagNames.length){
+					$(this.selectors.sTagsInput).removeAttr('required');
+				} else {
+					$(this.selectors.sTagsInput).attr('required', 'required');
+				}
+			}
 		},
 
 		updateSuggestionList : function() {
@@ -627,6 +643,7 @@ var AmsifySuggestags;
 		},
 
 		setInputValue: function() {
+			this.updateIsRequired();
 			$(this.selector).val(this.tagNames.join(','));
 			if(this.settings.printValues) {
 				this.printValues();
