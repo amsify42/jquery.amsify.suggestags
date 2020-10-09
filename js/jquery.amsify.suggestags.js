@@ -21,7 +21,7 @@ var AmsifySuggestags;
 			type              : 'bootstrap',
 			tagLimit          : -1,
 			suggestions       : [],
-			suggestionsAction : {timeout: -1, minChars:2, minChange:-1, type: 'GET'},
+			suggestionsAction : {timeout: -1, minChars:2, minChange:-1, delay:100, type: 'GET'},
 			defaultTagClass   : '',
 			classes           : [],
 			backgrounds       : [],
@@ -73,6 +73,7 @@ var AmsifySuggestags;
 		this.isRequired = false;
 		this.ajaxActive = false; 
 		this.tagNames   = [];
+		this.delayTimer = 0;
 	};
 	AmsifySuggestags.prototype = {
 	   /**
@@ -333,14 +334,18 @@ var AmsifySuggestags;
 				this.upDownSuggestion(value, type);
 			} else {
 				if(this.isSuggestAction() && !this.ajaxActive) {
-					var minChars  = this.settings.suggestionsAction.minChars;
-					var minChange = this.settings.suggestionsAction.minChange;
-					var lastSearch= this.selectors.sTagsInput.attr('last-search');
-					if(value.length >= minChars && (minChange === -1 || !lastSearch || this.similarity(lastSearch, value)*100 <= minChange)) {
-						this.selectors.sTagsInput.attr('last-search', value);
-						this.ajaxActive = true;
-						this.processAjaxSuggestion(value, keycode);
-					}
+					clearTimeout(this.delayTimer);
+					var _self       = this;
+					this.delayTimer = setTimeout(function() {
+				      	var minChars  = _self.settings.suggestionsAction.minChars;
+						var minChange = _self.settings.suggestionsAction.minChange;
+						var lastSearch= _self.selectors.sTagsInput.attr('last-search');
+						if(value.length >= minChars && (minChange === -1 || !lastSearch || _self.similarity(lastSearch, value)*100 <= minChange)) {
+							_self.selectors.sTagsInput.attr('last-search', value);
+							_self.ajaxActive = true;
+							_self.processAjaxSuggestion(value, keycode);
+						}
+				    }, this.settings.suggestionsAction.delay);
 				} else {
 					this.suggestWhiteList(value, keycode);
 				}
