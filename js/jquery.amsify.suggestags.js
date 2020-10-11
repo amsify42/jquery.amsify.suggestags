@@ -36,7 +36,8 @@ var AmsifySuggestags;
 			keepLastOnHoverTag: true,
 			printValues 	  : true,
 			checkSimilar 	  : true,
-			delimiters 		  : []
+			delimiters 		  : [],
+			showPlusAfter 	  : 0
 		};
 		this.method        = undefined;
 		this.name          = null;
@@ -53,10 +54,12 @@ var AmsifySuggestags;
 			itemPad       : '.amsify-item-pad',
 			inputType     : '.amsify-select-input',
 			tagItem       : '.amsify-select-tag',
+			plusItem 	  : '.amsify-plus-tag',
 			colBg         : '.col-bg',
 			removeTag     : '.amsify-remove-tag',
 			readyToRemove : '.ready-to-remove',
 			noSuggestion  : '.amsify-no-suggestion',
+			showPlusBg 	  : '.show-plus-bg'
 		};
 		this.selectors     = {
 			sTagsArea     : null,
@@ -69,11 +72,13 @@ var AmsifySuggestags;
 			listItem      : null,
 			itemPad       : null,
 			inputType     : null,
+			plusTag 	  : null
 		};
 		this.isRequired = false;
 		this.ajaxActive = false; 
 		this.tagNames   = [];
 		this.delayTimer = 0;
+		this.blurTgItems= null;
 	};
 	AmsifySuggestags.prototype = {
 	   /**
@@ -165,12 +170,14 @@ var AmsifySuggestags;
 						'box-shadow': 'none',
 					});
 				}
+				_self.checkPlusAfter();
 			});
 			$(this.selectors.sTagsInput).blur(function(){
 				$(this).closest(_self.classes.inputArea).removeClass(_self.classes.focus.substring(1));
 				if(!$(this).val()) {
 					$(_self.selectors.listArea).hide();
 				}
+				_self.checkPlusAfter(true);
 			});
 			$(this.selectors.sTagsInput).keyup(function(e){
 				var keycode = (e.keyCode ? e.keyCode : e.which);
@@ -528,6 +535,7 @@ var AmsifySuggestags;
 			$(this.selectors.listArea).find(this.classes.listItem).removeClass('active');
 			$(this.selectors.listArea).hide();
 			$(this.selectors.sTagsInput).removeClass(this.classes.readyToRemove.substring(1));
+			this.checkPlusAfter();
 		},
 
 		getItemKey : function(value) {
@@ -602,6 +610,7 @@ var AmsifySuggestags;
 				this.settings.afterRemove($(item).attr('data-val'));
 			}
 			$(this.selectors.sTagsInput).removeClass(this.classes.readyToRemove.substring(1));
+			this.checkPlusAfter();
 		},
 
 		animateRemove : function(item, animate) {
@@ -794,6 +803,49 @@ var AmsifySuggestags;
 					costs[s2.length] = lastValue;
 			}
 			return costs[s2.length];
+		},
+
+		checkPlusAfter : function(fromBlur) {
+			if(this.settings.showPlusAfter > 0) {
+				if(this.tagNames.length > this.settings.showPlusAfter) {
+					var _self 	   = this;
+					var plusNumber = this.tagNames.length - this.settings.showPlusAfter;
+					if(!this.selectors.plusTag) {
+						var html  = '<span class="'+this.classes.plusItem.substring(1)+'"></span>';
+						this.selectors.plusTag 	= $(html).appendTo(this.selectors.inputArea);
+						$(this.selectors.plusTag).addClass(this.classes.showPlusBg.substring(1));
+						/**
+						 * Show input after focus on input area
+						 */
+						$(this.selectors.inputArea).click(function(){
+							$(_self.selectors.sTagsInput).show();
+						});
+					}
+					$(this.selectors.plusTag).text('+ '+plusNumber);
+					$tagItems = $(this.selectors.inputArea).find(this.classes.tagItem);
+					$tagItems.show();
+					if($(this.selectors.inputArea).hasClass(this.classes.focus.substring(1))){
+						$(this.selectors.plusTag).hide();
+					} else {
+						if(fromBlur && !this.blurTgItems) {
+							this.blurTgItems = $tagItems;
+							setTimeout(function(){
+								if(_self.blurTgItems) {
+									_self.blurTgItems.slice(_self.settings.showPlusAfter).hide();
+								}
+							}, 200);
+						} else {
+							this.blurTgItems = null;
+							$tagItems.slice(this.settings.showPlusAfter).hide();
+						}
+						$(this.selectors.sTagsInput).hide();
+						$(this.selectors.plusTag).show();
+					}
+				} else if(this.selectors.plusTag) {
+					$(this.selectors.inputArea).find(this.classes.tagItem).show();
+					$(this.selectors.plusTag).hide();
+				}
+			}
 		}
 	};
 

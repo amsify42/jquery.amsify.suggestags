@@ -140,7 +140,9 @@ li.amsify-item-pad.active {
 }
 
 .amsify-suggestags-input-area
-.amsify-select-tag {
+.amsify-select-tag,
+.amsify-suggestags-input-area
+.amsify-plus-tag {
     padding: 2px 7px;
     margin: 0px 4px 1px 0px;
     -webkit-border-radius: 2px;
@@ -153,6 +155,15 @@ li.amsify-item-pad.active {
 .amsify-select-tag.col-bg {
 	background: #d8d8d8;
     color: black;
+}
+
+.amsify-suggestags-input-area
+.amsify-plus-tag.show-plus-bg {
+	background: #767676;
+    color: white;
+    -webkit-border-radius: 15px;
+    -moz-border-radius: 15px;
+    border-radius: 15px;
 }
 
 /*.amsify-suggestags-input-area

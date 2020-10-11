@@ -263,6 +263,13 @@ $('input[name="country"]').amsifySuggestags({
 	printValues: false
 });
 ```
+### showPlusAfter
+This setting is for hiding proceeding tags when focus is out of tags section and show the **+ number** instead. By default it is 0, you can set the number to hide the tags after the given number when focus is out.
+```js
+$('input[name="country"]').amsifySuggestags({
+	showPlusAfter: 0
+});
+```
 
 ## Instantiating
 This is also one of the approach you can use this plugin.
