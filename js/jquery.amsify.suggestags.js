@@ -340,10 +340,11 @@ var AmsifySuggestags;
 				var type = (keycode == '40')? 'down': 'up';
 				this.upDownSuggestion(value, type);
 			} else {
-				if(this.isSuggestAction() && !this.ajaxActive) {
-					clearTimeout(this.delayTimer);
-					var _self       = this;
-					this.delayTimer = setTimeout(function() {
+				clearTimeout(this.delayTimer);
+				var _self       = this;
+				this.delayTimer = setTimeout(function() {
+					console.info('reached');
+					if(_self.isSuggestAction() && !_self.ajaxActive) {
 				      	var minChars  = _self.settings.suggestionsAction.minChars;
 						var minChange = _self.settings.suggestionsAction.minChange;
 						var lastSearch= _self.selectors.sTagsInput.attr('last-search');
@@ -352,10 +353,10 @@ var AmsifySuggestags;
 							_self.ajaxActive = true;
 							_self.processAjaxSuggestion(value, keycode);
 						}
-				    }, this.settings.suggestionsAction.delay);
-				} else {
-					this.suggestWhiteList(value, keycode);
-				}
+					} else {
+						_self.suggestWhiteList(value, keycode);
+					}
+			    }, this.settings.suggestionsAction.delay);
 			}
 		},
 
