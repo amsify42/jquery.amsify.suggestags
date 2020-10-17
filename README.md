@@ -132,7 +132,7 @@ $('input[name="country"]').amsifySuggestags({
 timeout - It is for cancelling the request after given specific seconds, default is -1
 minChars - It is the minimum chars types before the first ajax hit, default is 2
 minChange - It recall the ajax based on the minimum percentage chars changed compared to the string passed in last ajax call, default is -1
-delay - It is the milliseconds time delay to call ajax or whiltelist suggestions on text entered and wait, defult is 100
+delay - It is the milliseconds time delay to call ajax or whitelist suggestions on text entered and wait, defult is 100
 type - It is type of method we pass, default is GET
 ```
 **Note**: **success** and **complete** callbacks does not directly override the original ajax callbacks, rather it gets called after original ones are executed.
@@ -270,6 +270,17 @@ $('input[name="country"]').amsifySuggestags({
 	showPlusAfter: 0
 });
 ```
+### suggestMatch
+A callback function can be passed to match the user entered text with suggestion item to show in suggestions list for custom matching.
+```js
+$('input[name="country"]').amsifySuggestags({
+	suggestions: ['India', 'Pakistan', 'Nepal', 'UAE', 'Iran', 'Bangladesh'],
+	suggestMatch : function(suggestionItem, value) {
+	    return ~suggestionItem.toString().toLowerCase().indexOf(value.toString().toLowerCase());
+	}
+});
+```
+This callback will receive two parameters, suggestion item value and the text value entered by user. Both parameters can be used to do custom matching and return non zero value to let that suggestion appear in suggestions list.
 
 ## Instantiating
 This is also one of the approach you can use this plugin.

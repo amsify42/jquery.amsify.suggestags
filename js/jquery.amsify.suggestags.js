@@ -21,6 +21,7 @@ var AmsifySuggestags;
 			type              : 'bootstrap',
 			tagLimit          : -1,
 			suggestions       : [],
+			suggestMatch 	  : {},
 			suggestionsAction : {timeout: -1, minChars:2, minChange:-1, delay:100, type: 'GET'},
 			defaultTagClass   : '',
 			classes           : [],
@@ -401,7 +402,18 @@ var AmsifySuggestags;
 				if($.isNumeric(dataVal)) {
 					dataVal = (value.toString().indexOf('.') == -1)? parseInt(dataVal): parseFloat(dataVal);
 				}
-				if((all || ~$(this).text().toString().toLowerCase().indexOf(lower)) && $.inArray(dataVal, _self.tagNames) === -1) {
+
+				/**
+				 * Suggest item matching result
+				 */
+				var suggestItemResult = 0;
+				if(_self.settings.suggestMatch && typeof _self.settings.suggestMatch == "function") {
+					suggestItemResult = _self.settings.suggestMatch($(this).text(), value);
+				} else {
+					suggestItemResult = ~$(this).text().toString().toLowerCase().indexOf(lower);
+				}
+
+				if((all || suggestItemResult) && $.inArray(dataVal, _self.tagNames) === -1) {
 					$(this).attr('data-show', 1);
 					found = true;
 				} else {
