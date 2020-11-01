@@ -504,7 +504,7 @@ var AmsifySuggestags;
 			return listHTML;
 		},
 
-		addTag : function(value) {
+		addTag : function(value, animate=true) {
 			if(!value) {
                 return;
             }
@@ -514,18 +514,18 @@ var AmsifySuggestags;
 				$item.addClass(this.settings.defaultTagClass);
 			}
 			if(this.settings.tagLimit != -1 && this.settings.tagLimit > 0 && this.tagNames.length >= this.settings.tagLimit) {
-				this.animateRemove($item, true);
+				this.animateRemove($item, animate);
 				this.flashItem(value);
 				return false;
 			}
 			var itemKey = this.getItemKey(value);
 			if(this.settings.whiteList && itemKey === -1) {
-				this.animateRemove($item, true);
+				this.animateRemove($item, animate);
 				this.flashItem(value);
 				return false;
 			}
 			if(this.isPresent(value)) {
-				this.animateRemove($item, true);
+				this.animateRemove($item, animate);
 				this.flashItem(value);
 			} else {
 				this.customStylings($item, itemKey);
@@ -600,12 +600,12 @@ var AmsifySuggestags;
             }
 		},
 
-		removeTag: function(value) {
+		removeTag: function(value, animate=true) {
 			var _self = this;
 			$findTags = $(this.selectors.sTagsArea).find('[data-val="'+value+'"]');
 			if($findTags.length) {
 				$findTags.each(function(){
-					_self.removeTagByItem(this, true);
+					_self.removeTagByItem(this, animate);
 				});
 			}
 		},
