@@ -514,24 +514,18 @@ var AmsifySuggestags;
 			}
 			if(this.settings.tagLimit != -1 && this.settings.tagLimit > 0 && this.tagNames.length >= this.settings.tagLimit) {
 				this.animateRemove($item, animate);
-				if(animate) {
-					this.flashItem(value);
-				}
+				this.flashItem(value);
 				return false;
 			}
 			var itemKey = this.getItemKey(value);
 			if(this.settings.whiteList && itemKey === -1) {
 				this.animateRemove($item, animate);
-				if(animate) {
-					this.flashItem(value);
-				}
+				this.flashItem(value);
 				return false;
 			}
 			if(this.isPresent(value)) {
 				this.animateRemove($item, animate);
-				if(animate) {
-					this.flashItem(value);
-				}
+				this.flashItem(value);
 			} else {
 				this.customStylings($item, itemKey);
 				var dataVal = value;
