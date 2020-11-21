@@ -343,7 +343,6 @@ var AmsifySuggestags;
 				clearTimeout(this.delayTimer);
 				var _self       = this;
 				this.delayTimer = setTimeout(function() {
-					console.info('reached');
 					if(_self.isSuggestAction() && !_self.ajaxActive) {
 				      	var minChars  = _self.settings.suggestionsAction.minChars;
 						var minChange = _self.settings.suggestionsAction.minChange;
@@ -514,18 +513,24 @@ var AmsifySuggestags;
 			}
 			if(this.settings.tagLimit != -1 && this.settings.tagLimit > 0 && this.tagNames.length >= this.settings.tagLimit) {
 				this.animateRemove($item, animate);
-				this.flashItem(value);
+				if(animate) {
+					this.flashItem(value);
+				}
 				return false;
 			}
 			var itemKey = this.getItemKey(value);
 			if(this.settings.whiteList && itemKey === -1) {
 				this.animateRemove($item, animate);
-				this.flashItem(value);
+				if(animate) {
+					this.flashItem(value);
+				}
 				return false;
 			}
 			if(this.isPresent(value)) {
 				this.animateRemove($item, animate);
-				this.flashItem(value);
+				if(animate) {
+					this.flashItem(value);
+				}
 			} else {
 				this.customStylings($item, itemKey);
 				var dataVal = value;
@@ -640,20 +645,20 @@ var AmsifySuggestags;
 		},
 
 		flashItem : function(value) {
-			$item = '';
-			value = value.toString().toLowerCase();
+			$tagItem = '';
+			value 	 = value.toString().toLowerCase();
 			$(this.selectors.sTagsArea).find(this.classes.tagItem).each(function(){
 				var tagName = $.trim($(this).attr('data-val'));
 				if(value == tagName.toString().toLowerCase()) {
-					$item = $(this);
+					$tagItem = $(this);
 					return false;
 				}
 			});
-			if($item) {
-				$item.addClass('flash');
+			if($tagItem) {
+				$tagItem.addClass('flash');
 				setTimeout(function(){
-					$item.removeClass('flash');
-				}, 1500);
+					$tagItem.removeClass('flash');
+				}, 1500, $tagItem);
 			}
 		},
 
