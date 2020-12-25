@@ -58,6 +58,11 @@
 		<div class="form-group">
 			<input type="text" class="form-control" name="anything" value="one,two,three,four,five,six"/>
 		</div>
+
+		<h4>Trim, Low Case, Add dashes</h4>
+		<div class="form-group">
+			<input type="text" class="form-control" name="new_types"/>
+		</div>
 	</div>
 	<div class="col-md-3"></div>
 </div>
@@ -98,12 +103,19 @@
 				$('input[name="anything"]').amsifySuggestags({
 					tagLimit: 5
 				});
+				$('input[name="new_types"]').amsifySuggestags({
+					trimValue: true,
+					dashspaces: true,
+					lowercase: true,
+					tagLimit: 4
+				});
 			</code>
 		</pre>
 	</div>
 </footer>
 <!-- -->
 <script type="text/javascript">
+	
 	$('input[name="country"]').amsifySuggestags();
 	$('input[name="color"]').amsifySuggestags({
 		suggestions: ['Black', 'White', 'Red', 'Blue', 'Green', 'Orange'],
@@ -156,6 +168,14 @@
 	$('input[name="anything"]').amsifySuggestags({
 		tagLimit: 5
 	});
+
+	$('input[name="new_types"]').amsifySuggestags({
+		trimValue: true,
+		dashspaces: true,
+		lowercase: true,
+		tagLimit: 4
+	});
+
 </script>
 </body>
 </html>
