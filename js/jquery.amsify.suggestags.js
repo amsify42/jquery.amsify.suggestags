@@ -893,23 +893,5 @@ var AmsifySuggestags;
 			amsifySuggestags._setMethod(method);
 			amsifySuggestags._init();
 		});
-	
-		
 	};
-
-	//get items as a function call -- over each of the selected class items.
-	// if div and items, then select div and find the class containing data-val
-	$.fn.get_items = function(arg){
-		arr_tags = [];
-		$.each($(this), function(){
-			arr_tags.push($(this).attr("data-val"));
-		});
-		if (arg === "items"){
-			return arr_tags;
-		}
-		else if(arg === "string"){
-			return arr_tags.join();
-		}
-	};
-
 }));
