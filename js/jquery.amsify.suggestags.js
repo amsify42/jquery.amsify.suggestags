@@ -29,6 +29,10 @@ var AmsifySuggestags;
 			whiteList         : false,
 			afterAdd          : {},
 			afterRemove       : {},
+			//My changes
+			trimValue         : false,
+			dashspaces        : false,
+			lowercase         : false,
 			selectOnHover     : true,
 			triggerChange     : false,
 			noSuggestionMsg   : '',
@@ -505,7 +509,23 @@ var AmsifySuggestags;
 		addTag : function(value, animate=true) {
 			if(!value) {
                 return;
-            }
+			}
+			// Trim value
+			if (typeof value === "string" && this.settings.trimValue) {
+				value = $.trim(value);
+			}
+			
+			// lowercase and dash
+			if (typeof value === "string" && this.settings.lowercase && this.settings.dashspaces) {
+				value = value.replace(/\s+/g, '-').toLowerCase();
+			}
+			else if (typeof value === "string" && this.settings.lowercase){
+				value = value.toLowerCase();
+			}
+			else if (typeof value === "string" && this.settings.dashspaces){
+				value = value.replace(/\s+/g, '-');
+			}
+
 			var html = '<span class="'+this.classes.tagItem.substring(1)+'" data-val="'+value+'">'+this.getTag(value)+' '+this.setIcon()+'</span>';
 			$item    = $(html).insertBefore($(this.selectors.sTagsInput));
 			if(this.settings.defaultTagClass) {
