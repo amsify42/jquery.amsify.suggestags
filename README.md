@@ -113,6 +113,7 @@ $('input[name="country"]').amsifySuggestags({
 		delay: 100,
 		type: 'GET',
 		url: 'http://www.site.com/suggestions',
+		dataType: null
 		beforeSend : function() {
 			console.info('beforeSend');
 		},
@@ -134,8 +135,10 @@ minChars - It is the minimum chars types before the first ajax hit, default is 2
 minChange - It recall the ajax based on the minimum percentage chars changed compared to the string passed in last ajax call, default is -1
 delay - It is the milliseconds time delay to call ajax or whitelist suggestions on text entered and wait, defult is 100
 type - It is type of method we pass, default is GET
+dataType - It is dateType of request data being passed, default is null
 ```
 **Note**: **success** and **complete** callbacks does not directly override the original ajax callbacks, rather it gets called after original ones are executed.
+
 
 ## White List
 This option simply does not allow any other inputs other than from suggestions.
@@ -177,6 +180,40 @@ $('input[name="country"]').amsifySuggestags({
 	backgrounds: ['blue', 'green', 'red', 'orange', '#424242'],
 	colors: ['white', 'black', 'white', 'black', 'white'],
 });
+```
+We can also set class, color and background at each suggestion item if the suggestion items are object.
+
+```js
+$('input[name="color"]').amsifySuggestags({
+	suggestions: [
+					{tag: 'Black', value: 1, background:'black', color:'white'},
+					{tag: 'White', value: 2, background:'white', color:'black'},
+					{tag: 'Red', value: 3, background:'red', color:'white'},
+					{tag: 'Blue', value: 4, background:'blue', color:'white'},
+					{tag: 'Green', value: 5, background:'green', color:'white'},
+					{tag: 'Orange', value: 6, background:'orange', color:'white'}
+				]
+});
+```
+Same suggestions can also be passed in ajax response to get these stylings working
+```json
+{
+	"suggestions": [
+		{
+			"tag": "Black",
+			"value": 1,
+			"background":"black",
+			"color":"white"
+		},
+		{
+			"tag": "White",
+			"value": 2,
+			"background":"white",
+			"color":"black"
+		}
+	]
+}
+
 ```
 
 ## Callbacks and Events

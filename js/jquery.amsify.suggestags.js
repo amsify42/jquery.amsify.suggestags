@@ -343,6 +343,11 @@ var AmsifySuggestags;
 				}
 				_self.ajaxActive = false;
 			};
+
+			if(this.settings.suggestionsAction.dataType !== undefined && this.settings.suggestionsAction.dataType !== null) {
+                ajaxFormParams['dataType'] = this.settings.suggestionsAction.dataType;
+            }
+
 			$.ajax(ajaxFormParams);
 		},
 
@@ -549,14 +554,14 @@ var AmsifySuggestags;
 			if(this.settings.whiteList && itemKey === -1) {
 				this.animateRemove($item, animate);
 				if(animate) {
-					this.flashItem(value);
+					this.flashItem(value, itemKey);
 				}
 				return false;
 			}
 			if(this.isPresent(value)) {
 				this.animateRemove($item, animate);
 				if(animate) {
-					this.flashItem(value);
+					this.flashItem(value, itemKey);
 				}
 			} else {
 				this.customStylings($item, itemKey);
@@ -584,12 +589,22 @@ var AmsifySuggestags;
 
 		getItemKey : function(value) {
 			var itemKey = -1
+			var _self = this;
 			if(this.settings.suggestions.length) {
 				var lower = value.toString().toLowerCase();
 				$.each(this.settings.suggestions, function(key, item){
 					if(typeof item === 'object') {
 						if(item.value.toString().toLowerCase() == lower) {
 							itemKey = key;
+							if(item.class !== undefined && _self.settings.classes[key] === undefined) {
+								_self.settings.classes[key] = item.class;
+							}
+							if(item.background !== undefined && _self.settings.backgrounds[key] === undefined) {
+								_self.settings.backgrounds[key] = item.background;
+							}
+							if(item.color !== undefined && _self.settings.colors[key] === undefined) {
+								_self.settings.colors[key] = item.color;
+							}
 							return false;
 						}  
 					} else if(item.toString().toLowerCase() == lower) {
@@ -613,20 +628,20 @@ var AmsifySuggestags;
 		},
 
 		customStylings : function(item, key) {
-			var isCutom = false;
+			var isCustom = false;
 			if(this.settings.classes[key]) {
-				isCutom = true;
+				isCustom = true;
 				$(item).addClass(this.settings.classes[key]);
 			}
 			if(this.settings.backgrounds[key]) {
-				isCutom = true;
+				isCustom = true;
 				$(item).css('background', this.settings.backgrounds[key]);
 			}
 			if(this.settings.colors[key]) {
-				isCutom = true;
+				isCustom = true;
 				$(item).css('color', this.settings.colors[key]);
 			}
-			if(!isCutom) {
+			if(!isCustom) {
                 $(item).addClass(this.classes.colBg.substring(1));
             }
 		},
@@ -671,7 +686,7 @@ var AmsifySuggestags;
 			}
 		},
 
-		flashItem : function(value) {
+		flashItem : function(value, itemKey) {
 			$tagItem = '';
 			value 	 = value.toString().toLowerCase();
 			$(this.selectors.sTagsArea).find(this.classes.tagItem).each(function(){
@@ -682,9 +697,16 @@ var AmsifySuggestags;
 				}
 			});
 			if($tagItem) {
+				background = (this.settings.backgrounds[itemKey] !== undefined)? this.settings.backgrounds[itemKey]: null;
+				if(background !== null) {
+					$tagItem.css('background', ''); 
+				}
 				$tagItem.addClass('flash');
 				setTimeout(function(){
 					$tagItem.removeClass('flash');
+					if(background !== null) {
+						$tagItem.css('background', background);
+					}
 				}, 1500, $tagItem);
 			}
 		},
