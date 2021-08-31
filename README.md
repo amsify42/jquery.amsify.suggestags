@@ -113,7 +113,7 @@ $('input[name="country"]').amsifySuggestags({
 		delay: 100,
 		type: 'GET',
 		url: 'http://www.site.com/suggestions',
-		dataType: null
+		dataType: null,
 		beforeSend : function() {
 			console.info('beforeSend');
 		},
